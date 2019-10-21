@@ -51,7 +51,7 @@
                 android:layout_width="48dp"
                 android:layout_height="4dp"
                 android:layout_marginTop="4dp"
-                android:background="@color/colorTextBlack" />
+                android:background="@color/colorPrimary" />
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
