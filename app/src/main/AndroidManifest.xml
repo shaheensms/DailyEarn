@@ -9,7 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AccountSetupActivity"></activity>
+        <activity android:name=".DepositSelectActivity"></activity>
+        <activity android:name=".DailyActivity" />
+        <activity android:name=".BestOfferActivity" />
+        <activity android:name=".AccountSetupActivity" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".LoginActivity">
             <intent-filter>
