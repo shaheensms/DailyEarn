@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "883514533636",
+    "firebase_url": "https://daily-earn-47231.firebaseio.com",
+    "project_id": "daily-earn-47231",
+    "storage_bucket": "daily-earn-47231.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:883514533636:android:951e5ce03ec023beaa5251",
+        "android_client_info": {
+          "package_name": "com.metacoders.dailyearn"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "883514533636-h3ko7ambaq6emkhggra3co0v10lmm1qs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.metacoders.dailyearn",
+            "certificate_hash": "e7134e9e771c4552820851631487affe4d0ba29b"
+          }
+        },
+        {
+          "client_id": "883514533636-8auv14b6touusvcqkffdbvse1habulsi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBsb-gNAgg2mWIsE65nVwliO64SFBIj1SI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "883514533636-8auv14b6touusvcqkffdbvse1habulsi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
