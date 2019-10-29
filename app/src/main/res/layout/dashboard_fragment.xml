@@ -116,9 +116,16 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="It is a long established fact that a reader"
+                                android:scrollHorizontally="true"
+                                android:text="It is a longsrdtfryrsdfgsfgdhsfdghsfghsfghsfgh
+                                 sfghsfghestablished fact that a reader"
                                 android:layout_marginLeft="4dp"
+                                android:singleLine="true"
+                                android:ellipsize="marquee"
+                                android:marqueeRepeatLimit ="marquee_forever"
+                                android:focusable="true"
                                 android:gravity="center_vertical"
+                                android:id="@+id/newsTicker"
                                 android:textColor="@color/white" />
 
                         </LinearLayout>
