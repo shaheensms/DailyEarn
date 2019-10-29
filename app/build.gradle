@@ -40,5 +40,7 @@ dependencies {
     implementation 'com.github.joielechong:countrycodepicker:2.4.1'
     // dialogue
     implementation 'com.github.blennerSilva:AwesomeDialog:2.0.6'
+    // Circle Image View
+    implementation 'de.hdodenhof:circleimageview:3.0.1'
 
 }
