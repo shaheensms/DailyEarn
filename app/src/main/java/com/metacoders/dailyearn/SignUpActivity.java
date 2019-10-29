@@ -34,14 +34,16 @@ import java.util.Locale;
 
 public class SignUpActivity extends AppCompatActivity {
     CountryCodePicker ccp;
-    String countryCode;
-    TextInputEditText fnameinput, lnameinput, emailinput, passinput, confirmpassinput, affliationinput, mobileinput, usernameinput, dobpicker;
-    String name, genCount = "1", owngenCount = "1", email, headLead = "null", pass, confirmpass, affliation, mobilenum, dateOfBirth, countryName, username, affliatedOf = "null";
-    Button signUp;
-    FirebaseAuth mAuth;
-    String newPath;
-    String aff = "null";
-    boolean isaff = false;
+    String  countryCode  ;
+    TextInputEditText fnameinput , lnameinput , emailinput , passinput , confirmpassinput , affliationinput  , mobileinput
+           , usernameinput , dobpicker ;
+    String  name , genCount=  "1" , owngenCount = "1" ,  email  , headLead = "null" , pass ,confirmpass , affliation , mobilenum , dateOfBirth , countryName  , username  , affliatedOf  = "null"   ;
+    Button signUp ;
+    FirebaseAuth mAuth ;
+    String newPath ;
+     String aff  = "null";
+boolean isaff  = false  ;
+
 
 
     @Override
@@ -49,17 +51,17 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        //init views
+      //init views
         ccp = (CountryCodePicker) findViewById(R.id.ccp);
-        fnameinput = findViewById(R.id.fname);
-        lnameinput = findViewById(R.id.lname);
-        emailinput = findViewById(R.id.emailid);
-        passinput = findViewById(R.id.password);
-        confirmpassinput = findViewById(R.id.confirmPassword);
-        affliationinput = findViewById(R.id.affliationID);
-        mobileinput = findViewById(R.id.phoneNumber);
+        fnameinput = findViewById(R.id.fname) ;
+        lnameinput = findViewById(R.id.lname) ;
+        emailinput = findViewById(R.id.emailid) ;
+        passinput = findViewById(R.id.password) ;
+        confirmpassinput = findViewById(R.id.confirmPassword) ;
+        affliationinput = findViewById(R.id.affliationID) ;
+        mobileinput = findViewById(R.id.phoneNumber) ;
         signUp = findViewById(R.id.signupBtn);
-        usernameinput = findViewById(R.id.userName);
+        usernameinput = findViewById(R.id.userName) ;
         Button signout = findViewById(R.id.signout);
 
 
@@ -69,17 +71,19 @@ public class SignUpActivity extends AppCompatActivity {
 
 
                 FirebaseAuth ma = FirebaseAuth.getInstance();
-                ma.signOut();
-                showToast("SIGNOUT ");
+               ma.signOut();
+               showToast("SIGNOUT ");
             }
         });
-        // countryCode = ccp.getSelectedCountryCodeWithPlus() ;
+      // countryCode = ccp.getSelectedCountryCodeWithPlus() ;
 
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getDataFromViews();
+                getDataFromViews() ;
                 checkingusername();
+
+
 
 
             }
@@ -91,7 +95,7 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
 
-    private void signupingoogle() {
+    private  void signupingoogle(){
         mAuth = FirebaseAuth.getInstance();
         mAuth.createUserWithEmailAndPassword(email, pass)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -101,11 +105,14 @@ public class SignUpActivity extends AppCompatActivity {
                             // Sign in success, upload the profile data to firebase
 
 
-                            uploadProfileDataToFirebase();
 
-                            if (isaff) {
-                                registeraffliation(affliatedOf, genCount, headLead);
+
+                            uploadProfileDataToFirebase() ;
+
+                            if(isaff){
+                                registeraffliation(affliatedOf , genCount , headLead )  ;
                             }
+
 
 
                         } else {
@@ -123,43 +130,47 @@ public class SignUpActivity extends AppCompatActivity {
 
     private void uploadProfileDataToFirebase() {
         String delegate = "hh:mm aaa";
-        String Time = String.valueOf(DateFormat.format(delegate, Calendar.getInstance().getTime()));
-        String DATE = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+        String  Time = String.valueOf(DateFormat.format(delegate, Calendar.getInstance().getTime()));
+        String   DATE = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
 
-        DATE = DATE + " " + Time;
+        DATE = DATE + " "+Time;
 
 
-        final String uid = mAuth.getUid();
+        final String uid = mAuth.getUid() ;
 
         DatabaseReference profileDb = FirebaseDatabase.getInstance().getReference(constants.profileLink).child(uid);
 
         // trying to upload to data base with the help of hash map
-        if (affliatedOf.contains("null")) {
-            affliatedOf = FirebaseAuth.getInstance().getUid();
+        if( affliatedOf.contains("null") )
+        {
+            affliatedOf = FirebaseAuth.getInstance().getUid()  ;
 
 
         }
 
 
+
+
         HashMap datamap = new HashMap();
 
-        datamap.put("name", name);
-        datamap.put("password", pass);
-        datamap.put("mail", email);
-        datamap.put("affiliationOf", affliatedOf);
-        datamap.put("dob", dateOfBirth);
-        datamap.put("country", countryName);
-        datamap.put("phone", mobilenum);
-        datamap.put("username", username);
-        datamap.put("nid_passport", "null");
-        datamap.put("uid", uid);
-        datamap.put("genCount", genCount);
-        datamap.put("status", "inactive");
-        aff = createAfliationCode(mobilenum, uid, username);
-        datamap.put("my_AffiliationId", aff);
-        datamap.put("joining_Date", DATE);
-        datamap.put("headLead", "null");
-        datamap.put("owngencount", "1");
+        datamap.put("name" , name);
+        datamap.put("password" , pass);
+        datamap.put("mail" , email);
+        datamap.put("affiliationOf" , affliatedOf);
+        datamap.put("dob" , dateOfBirth);
+        datamap.put("country" , countryName);
+        datamap.put("phone" , mobilenum);
+        datamap.put("username" , username);
+        datamap.put("nid_passport" ,"null");
+        datamap.put("uid", uid) ;
+        datamap.put("genCount" , genCount);
+        datamap.put("status" ,"inactive");
+         aff = createAfliationCode(mobilenum , uid , username);
+        datamap.put("my_AffiliationId" , aff) ;
+        datamap.put("joining_Date" , DATE) ;
+        datamap.put("headLead"  , "null" ) ;
+        datamap.put("owngencount" , "1") ;
+
 
 
         profileDb.setValue(datamap)
@@ -180,41 +191,53 @@ public class SignUpActivity extends AppCompatActivity {
 
                                         genrateGroupOfMine();
                                     }
-                                });
+                                }) ;
+
+
+
+
 
 
                             }
-                        });
+                        }) ;
+
 
 
                     }
                 });
 
 
+
+
+
+
+
+
+
     }
 
-    private void createlvl() {
-        String uid = mAuth.getUid();
+    private  void createlvl() {
+        String uid = mAuth.getUid() ;
 
         DatabaseReference profileDb = FirebaseDatabase.getInstance().getReference(constants.profileLink).child(uid).child(constants.gen);
 
         HashMap genmap = new HashMap();
 
-        genmap.put("lvl1", "null");
-        genmap.put("lvl2", "null");
-        genmap.put("lvl3", "null");
-        genmap.put("lvl4", "null");
-        genmap.put("lvl5", "null");
-        genmap.put("lvl6", "null");
-        genmap.put("lvl7", "null");
-        genmap.put("lvl8", "null");
-        genmap.put("lvl9", "null");
-        genmap.put("lvl10", "null");
-        genmap.put("lvl11", "null");
-        genmap.put("lvl12", "null");
-        genmap.put("lvl13", "null");
-        genmap.put("lvl14", "null");
-        genmap.put("lvl15", "null");
+        genmap.put("lvl1" , "null");
+        genmap.put("lvl2" , "null");
+        genmap.put("lvl3" , "null");
+        genmap.put("lvl4" , "null");
+        genmap.put("lvl5" , "null");
+        genmap.put("lvl6" , "null");
+        genmap.put("lvl7" , "null");
+        genmap.put("lvl8" , "null");
+        genmap.put("lvl9" , "null");
+        genmap.put("lvl10" , "null");
+        genmap.put("lvl11" , "null");
+        genmap.put("lvl12" , "null");
+        genmap.put("lvl13" , "null");
+        genmap.put("lvl14" , "null");
+        genmap.put("lvl15" , "null");
 
         profileDb.setValue(genmap).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -225,26 +248,27 @@ public class SignUpActivity extends AppCompatActivity {
                 balnaceCreation();
 
             }
-        });
+        }) ;
+
+
 
 
     }
+    private  void balnaceCreation( ){
 
-    private void balnaceCreation() {
-
-        String uid = mAuth.getUid();
+        String uid = mAuth.getUid() ;
 
         DatabaseReference balDb = FirebaseDatabase.getInstance().getReference(constants.profileLink).child(uid).child(constants.baldb);
 
 
         HashMap balmap = new HashMap();
 
-        balmap.put("joining_Bonus", "null");
-        balmap.put("afflicted_Bonus", "null");
-        balmap.put("mutual_Bonus", "null");
-        balmap.put("earn_Bonus", "null");
-        balmap.put("global_profit_share", "null");
-        balmap.put("reward_Bonus", "null");
+        balmap.put("joining_Bonus" , "null") ;
+        balmap.put("afflicted_Bonus" , "null") ;
+        balmap.put("mutual_Bonus" , "null") ;
+        balmap.put("earn_Bonus" , "null") ;
+        balmap.put("global_profit_share" , "null") ;
+        balmap.put("reward_Bonus" , "null") ;
 
         balDb.setValue(balmap).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -253,31 +277,36 @@ public class SignUpActivity extends AppCompatActivity {
                 giveBonusTothehigherGen();
 
             }
-        });
+        }) ;
 
 
     }
 
 
-    private void checkingusername() {
+    private  void checkingusername() {
         DatabaseReference userNameRef = FirebaseDatabase.getInstance().getReference("userNameDb").child(username);
 
         // checking id the username exist or not
         userNameRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
+                if(dataSnapshot.exists())
+                {
 
 
                     showToast("UserName Taken");
 
 
-                } else {
+                }
+                else {
 
-                    if (!affliation.isEmpty()) {
+                    if(!affliation.isEmpty())
+                    {
 
                         checkingaffliationID();
-                    } else {
+                    }
+                    else
+                    {
                         // straight  signup users with gmail
                         signupingoogle();
 
@@ -294,34 +323,45 @@ public class SignUpActivity extends AppCompatActivity {
         });
 
 
-    }
 
-    private void checkingaffliationID() {
-        DatabaseReference affid = FirebaseDatabase.getInstance().getReference("affdblist").child(affliation);
+    }
+    private  void checkingaffliationID() {
+        DatabaseReference  affid = FirebaseDatabase.getInstance().getReference("affdblist").child(affliation);
         affid.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
+                if(dataSnapshot.exists())
+                {
 
-                    isaff = true;
+                    isaff = true ;
 
-                    modelForaddDb modell = dataSnapshot.getValue(modelForaddDb.class);
-                    affliatedOf = modell.getUid();
+                    modelForaddDb modell =  dataSnapshot.getValue(modelForaddDb.class) ;
+                    affliatedOf = modell.getUid() ;
 
 
-                    DatabaseReference rr = FirebaseDatabase.getInstance().getReference("affliationGroup").child(affliatedOf);
+
+
+                    DatabaseReference  rr = FirebaseDatabase.getInstance().getReference("affliationGroup").child(affliatedOf);
 
                     rr.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            modelForafflitaion model = dataSnapshot.getValue(modelForafflitaion.class);
+                            modelForafflitaion model =  dataSnapshot.getValue(modelForafflitaion.class) ;
 
 
-                            genCount = model.getGenCount();
+                            genCount = model.getGenCount() ;
                             headLead = model.getHead();
 
 
-                            signupingoogle();
+
+                                signupingoogle();
+
+
+
+
+
+
+
 
 
                         }
@@ -333,9 +373,12 @@ public class SignUpActivity extends AppCompatActivity {
                     });
 
 
-                    //        signupingoogle();
 
-                } else {
+
+            //        signupingoogle();
+
+                }
+                else {
 
                     showToast("Wrong Affliation ID");
 
@@ -355,30 +398,34 @@ public class SignUpActivity extends AppCompatActivity {
     private void registeraffliation(final String affliatedOf, final String genCountt, String HeadLeaad) {
 
 
-        final String uidds = FirebaseAuth.getInstance().getUid();
-        String lv = "lvl" + genCountt;
+      final  String uidds = FirebaseAuth.getInstance().getUid() ;
+        String lv = "lvl"+genCountt  ;
         DatabaseReference create = FirebaseDatabase.getInstance().getReference("affliationGroup").child(affliatedOf).child(uidds);
 
-        modelForafflitaion modelForafflitaion = new modelForafflitaion(uidds, genCountt, HeadLeaad, lv);
+        modelForafflitaion modelForafflitaion =new modelForafflitaion(uidds , genCountt , HeadLeaad , lv) ;
 
-        create.setValue(modelForafflitaion);
+        create.setValue(modelForafflitaion) ;
 
         DatabaseReference createaffdb = FirebaseDatabase.getInstance().getReference("affdblist").child(affliation).child("lists").child(uidds);
 
 
-        modelForafflitaion modelForlist = new modelForafflitaion(uidds, genCountt, HeadLeaad, lv);
+        modelForafflitaion modelForlist =new modelForafflitaion(uidds , genCountt , HeadLeaad , lv) ;
 
-        createaffdb.setValue(modelForlist);
+        createaffdb.setValue(modelForlist) ;
 
 
-        int newgen = Integer.parseInt(genCount) + 1;
+
+        int newgen  =  Integer.parseInt(genCount)+1 ;
         DatabaseReference update = FirebaseDatabase.getInstance().getReference("affliationGroup").child(affliatedOf).child("genCount");
         genCount = newgen + "";
         update.setValue(String.valueOf(newgen)).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
 
-                //  signupingoogle();
+              //  signupingoogle();
+
+
+
 
 
             }
@@ -386,21 +433,22 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
 
-    private void getDataFromViews() {
-        name = fnameinput.getText().toString() + " " + lnameinput.getText().toString();
-        email = emailinput.getText().toString();
+    private  void getDataFromViews() {
+        name = fnameinput.getText().toString() + " " + lnameinput.getText().toString() ;
+        email = emailinput.getText().toString() ;
         affliation = affliationinput.getText().toString();
         pass = passinput.getText().toString();
-        confirmpass = confirmpassinput.getText().toString();
-        mobilenum = ccp.getSelectedCountryCodeWithPlus() + mobileinput.getText().toString();
-        countryName = ccp.getSelectedCountryName();
+        confirmpass = confirmpassinput.getText().toString() ;
+        mobilenum = ccp.getSelectedCountryCodeWithPlus() + mobileinput.getText().toString() ;
+        countryName = ccp.getSelectedCountryName() ;
         username = usernameinput.getText().toString();
 
 
-    }
 
-    private void showToast(String s) {
-        Toast.makeText(SignUpActivity.this, s, Toast.LENGTH_LONG)
+
+    }
+    private  void showToast(String s) {
+        Toast.makeText(SignUpActivity.this , s , Toast.LENGTH_LONG)
                 .show();
 
     }
@@ -436,22 +484,28 @@ public class SignUpActivity extends AppCompatActivity {
 
 
                         TownNameList.add(TownList.get(i).getUid());
-                        TownNameList.add(TownList.get(i).getGenLvl());
+                        TownNameList.add(TownList.get(i).getGenLvl()) ;
 
                         showToast(TownList.get(i).getUid());
 
-                        if (!TownList.get(i).getUid().equals(getmyUid())) {
+                        if(!TownList.get(i).getUid().equals(getmyUid()))
+                        {
                             showToast(TownList.get(i).getUid());
                             DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(constants.profileLink)
                                     .child(TownList.get(i).getUid()).child(constants.baldb).child("earn_Bonus");
-                            databaseReference.setValue("yes");
+                                databaseReference.setValue("yes") ;
 
 
                         }
 
 
+
+
                     }
                 }
+
+
+
 
                 //  showToast("done");
             }
@@ -465,29 +519,30 @@ public class SignUpActivity extends AppCompatActivity {
 
     }
 
-    private String createAfliationCode(String phn, String uid, String name) {
+            private  String  createAfliationCode(String phn  , String uid , String name ) {
         String delegate = "hh";
-        String Time = String.valueOf(DateFormat.format(delegate, Calendar.getInstance().getTime()));
+        String  Time = String.valueOf(DateFormat.format(delegate, Calendar.getInstance().getTime()));
 
-        return name + Time;
+        return name+Time  ;
 
     }
 
 
-    private void genrateGroupOfMine() {
+    private  void genrateGroupOfMine()
+    {
 
 
-        final String UID = FirebaseAuth.getInstance().getUid();
+        final String UID = FirebaseAuth.getInstance().getUid() ;
 
-        DatabaseReference gengrop = FirebaseDatabase.getInstance().getReference("affliationGroup").child(UID);
+         DatabaseReference gengrop = FirebaseDatabase.getInstance().getReference("affliationGroup").child(UID);
 
 
         HashMap genmap = new HashMap();
 
 
-        genmap.put("head", headLead);
-        genmap.put("genCount", "1");
-        genmap.put("uid", FirebaseAuth.getInstance().getUid());
+        genmap.put("head" ,  headLead ) ;
+        genmap.put("genCount" ,"1");
+        genmap.put("uid" , FirebaseAuth.getInstance().getUid()) ;
 
         /*
         genmap.put("lvl1" , "null");
@@ -512,22 +567,30 @@ public class SignUpActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
 
-                        //   DatabaseReference  updateProfile = FirebaseDatabase.getInstance().getReference(constants.profileLink).child(UID).child("");
+                     //   DatabaseReference  updateProfile = FirebaseDatabase.getInstance().getReference(constants.profileLink).child(UID).child("");
 
                         balnaceCreation();
                     }
-                });
+                }) ;
+
+
+
 
 
     }
 
 
-    private String getmyUid() {
-        String i = FirebaseAuth.getInstance().getUid();
+    private  String   getmyUid()
+    {
+        String i  = FirebaseAuth.getInstance().getUid() ;
 
 
-        return i;
+        return  i ;
     }
+
+
+
+
 
 
 }
