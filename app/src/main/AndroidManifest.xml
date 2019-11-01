@@ -11,19 +11,19 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".DepositSelectActivity">
-
-        </activity>
-        <activity android:name=".DailyActivity" />
-        <activity android:name=".BestOfferActivity" />
-        <activity android:name=".AccountSetupActivity" />
-        <activity android:name=".SignUpActivity" >
+        <activity android:name=".homePageActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
+        <activity android:name=".DepositSelectActivity"></activity>
+        <activity android:name=".DailyActivity" />
+        <activity android:name=".BestOfferActivity" />
+        <activity android:name=".AccountSetupActivity" />
+        <activity android:name=".SignUpActivity"></activity>
         <activity android:name=".LoginActivity">
 
         </activity>

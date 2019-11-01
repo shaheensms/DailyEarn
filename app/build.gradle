@@ -6,7 +6,7 @@ android {
     buildToolsVersion "29.0.2"
     defaultConfig {
         applicationId "com.metacoders.dailyearn"
-        minSdkVersion 21
+        minSdkVersion 22
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -42,5 +42,8 @@ dependencies {
     implementation 'com.github.blennerSilva:AwesomeDialog:2.0.6'
     //Circle ImageView
     implementation 'de.hdodenhof:circleimageview:3.0.1'
+
+    // bottomNavBar
+    implementation 'com.github.ibrahimsn98:SmoothBottomBar:1.3'
 
 }
