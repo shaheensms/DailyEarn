@@ -7,6 +7,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
+        android:fillViewport="true"
         android:layout_height="wrap_content">
 
         <LinearLayout
@@ -43,9 +44,10 @@
                                 android:text="Affiliate Link: "/>
 
                             <TextView
+                                android:id="@+id/affLinkTv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="xxdbisfi47yd"/>
+                                android:text="......."/>
 
                             <Button
                                 android:layout_width="48dp"
@@ -148,7 +150,7 @@
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_margin="4dp">
 
                 <LinearLayout
@@ -159,9 +161,12 @@
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal" />
+                        android:layout_height="160dp"
+                        android:id="@+id/productlist"
 
+                        android:orientation="horizontal" >
+
+                    </androidx.recyclerview.widget.RecyclerView>
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
@@ -179,17 +184,24 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
                 android:layout_margin="4dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
                     android:orientation="horizontal">
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:id="@+id/pakageList"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:layout_height="120dp"
                         android:orientation="horizontal" />
 
                 </LinearLayout>

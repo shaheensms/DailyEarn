@@ -1,19 +1,45 @@
 package com.metacoders.dailyearn.models;
 
 public class modelForProfile {
-    String uid , username , affiliationOf ,headLead ,owngencount  ;
+    String uid , username , affiliationOf ,headLead ,owngencount , my_AffiliationId  ,  password;
 
     public modelForProfile() {
     }
 
 
-
-    public modelForProfile(String uid, String username, String affiliationOf, String headLead, String owngencount) {
+    public modelForProfile(String uid, String username, String affiliationOf, String headLead, String owngencount, String my_AffiliationId, String password) {
         this.uid = uid;
         this.username = username;
         this.affiliationOf = affiliationOf;
         this.headLead = headLead;
         this.owngencount = owngencount;
+        this.my_AffiliationId = my_AffiliationId;
+        this.password = password;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public modelForProfile(String uid, String username, String affiliationOf, String headLead, String owngencount, String my_AffiliationId) {
+        this.uid = uid;
+        this.username = username;
+        this.affiliationOf = affiliationOf;
+        this.headLead = headLead;
+        this.owngencount = owngencount;
+        this.my_AffiliationId = my_AffiliationId;
+    }
+
+    public String getMy_AffiliationId() {
+        return my_AffiliationId;
+    }
+
+    public void setMy_AffiliationId(String my_AffiliationId) {
+        this.my_AffiliationId = my_AffiliationId;
     }
 
     public String getOwngencount() {

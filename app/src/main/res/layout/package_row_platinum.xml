@@ -6,12 +6,14 @@
     app:cardCornerRadius="12dp">
 
     <LinearLayout
+        android:id="@+id/pakageBackGround"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/platinum_gradient"
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/priceTv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
@@ -20,6 +22,7 @@
             android:textColor="@color/white"/>
 
         <TextView
+            android:id="@+id/nameTV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
