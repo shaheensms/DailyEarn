@@ -11,7 +11,7 @@ import android.view.MenuItem;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.metacoders.dailyearn.adapters.viewPagerAdapter;
 import com.metacoders.dailyearn.fragments.dashboardFragment;
-import com.metacoders.dailyearn.fragments.testActivity2;
+import com.metacoders.dailyearn.fragments.balanceFragment;
 
 public class homePageActivity extends AppCompatActivity {
 
@@ -33,7 +33,7 @@ public class homePageActivity extends AppCompatActivity {
         viewPagerAdapter adapter = new viewPagerAdapter(getSupportFragmentManager());
 
         adapter.AddFragment(new dashboardFragment() , "Plan Trip");
-        adapter.AddFragment(new testActivity2() , "Ongoing Trip");
+        adapter.AddFragment(new balanceFragment() , "Ongoing Trip");
 
 
 

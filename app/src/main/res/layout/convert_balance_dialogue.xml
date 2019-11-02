@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="vertical"
+    android:layout_width="350dp"
+    android:layout_height="wrap_content">
 
     <ImageView
         android:layout_width="wrap_content"
@@ -16,9 +17,10 @@
         android:textColor="@color/black"
         android:text="Select Account"/>
 
-    <EditText
+    <Spinner
+        android:id="@+id/fromacc"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:drawableRight="@drawable/drop_down_icon_24dp"
@@ -30,11 +32,12 @@
         android:layout_marginTop="4dp"
         android:layout_marginLeft="8dp"
         android:textColor="@color/black"
-        android:text="Available Balance"/>
+        android:text="To Account"/>
 
-    <EditText
+    <Spinner
+        android:id="@+id/toacc"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:inputType="numberDecimal"
@@ -50,6 +53,7 @@
         android:text="Witdraw Amount"/>
 
     <EditText
+        android:id="@+id/amount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
@@ -67,6 +71,7 @@
         android:text="Password"/>
 
     <EditText
+        android:id="@+id/password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
@@ -82,6 +87,7 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/confirmBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
@@ -92,6 +98,7 @@
             android:text="Confirm"/>
 
         <Button
+            android:id="@+id/cancelBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
