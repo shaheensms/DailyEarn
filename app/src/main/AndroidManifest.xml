@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".homePageActivity">
+        <activity android:name=".activity.packageListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,19 +19,19 @@
             </intent-filter>
 
         </activity>
-        <activity android:name=".DepositSelectActivity"></activity>
+        <activity android:name=".activity.productListActivity" >
+
+        </activity>
+        <activity android:name=".activity.homePageActivity">
+
+        </activity>
+        <activity android:name=".DepositSelectActivity" />
         <activity android:name=".DailyActivity" />
         <activity android:name=".BestOfferActivity" />
         <activity android:name=".AccountSetupActivity" />
-        <activity android:name=".SignUpActivity"></activity>
-        <activity android:name=".LoginActivity">
-
-        </activity>
-        <activity android:name=".activity.FundTransferActivity">
-
-
-
-        </activity>
+        <activity android:name=".SignUpActivity" />
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".activity.FundTransferActivity" />
     </application>
 
 </manifest>

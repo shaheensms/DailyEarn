@@ -39,7 +39,7 @@ public class dashboardFragment extends Fragment {
     FirebaseRecyclerOptions<modelForProducts> options ;
     FirebaseRecyclerAdapter<modelForProducts , viewholdersForProducts> firebaseRecyclerAdapter ;
     View view;
-TextView affTv  ;
+    TextView affTv  ;
 
     public dashboardFragment() {
 
@@ -119,8 +119,7 @@ TextView affTv  ;
 
     }
 
-    public  void loadProduts()
-    {
+    public  void loadProduts() {
 
 
 

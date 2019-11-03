@@ -30,6 +30,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/titleNameTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -58,9 +59,10 @@
                             android:text="Affiliate Link: "/>
 
                         <TextView
+                            android:id="@+id/affIDTv"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="xxdbisfi47yd"/>
+                            android:layout_height="24dp"
+                            android:text="" />
 
                         <Button
                             android:layout_width="48dp"
@@ -142,6 +144,7 @@
                                     android:textColor="@color/colorPrimary" />
 
                                 <TextView
+                                    android:id="@+id/joinedDate"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="11/03/2019"
@@ -169,6 +172,7 @@
                                     android:textColor="@color/colorPrimary" />
 
                                 <TextView
+                                    android:id="@+id/activatedDate"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="11/03/2019"
@@ -196,6 +200,7 @@
                                     android:textColor="@color/colorPrimary" />
 
                                 <TextView
+                                    android:id="@+id/rankTv"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="44"
@@ -235,6 +240,7 @@
                                     android:textColor="@color/colorPrimary" />
 
                                 <TextView
+                                    android:id="@+id/affliationID"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Johnxyz"
@@ -262,6 +268,7 @@
                                     android:textColor="@color/colorPrimary" />
 
                                 <TextView
+                                    android:id="@+id/affnameTv"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="James Bond"
@@ -309,6 +316,7 @@
                             android:textStyle="bold"/>
 
                         <TextView
+                            android:id="@+id/titleNameTv2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="18sp"
@@ -331,10 +339,11 @@
                             android:textStyle="bold"/>
 
                         <TextView
+                            android:id="@+id/mailTv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="18sp"
-                            android:text="admin@admin.com " />
+                            android:text=" " />
 
                     </LinearLayout>
 
@@ -356,6 +365,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="18sp"
+                            android:id="@+id/adressTv"
                             android:text="Dhormopur " />
 
                     </LinearLayout>
@@ -375,6 +385,7 @@
                             android:textStyle="bold"/>
 
                         <TextView
+                            android:id="@+id/adressTv2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="18sp"
@@ -397,6 +408,7 @@
                             android:textStyle="bold"/>
 
                         <TextView
+                            android:id="@+id/dobTV"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="18sp"

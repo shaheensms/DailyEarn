@@ -129,11 +129,10 @@ boolean isaff  = false  ;
     }
 
     private void uploadProfileDataToFirebase() {
-        String delegate = "hh:mm aaa";
-        String  Time = String.valueOf(DateFormat.format(delegate, Calendar.getInstance().getTime()));
+
         String   DATE = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
 
-        DATE = DATE + " "+Time;
+
 
 
         final String uid = mAuth.getUid() ;
@@ -170,6 +169,12 @@ boolean isaff  = false  ;
         datamap.put("joining_Date" , DATE) ;
         datamap.put("headLead"  , "null" ) ;
         datamap.put("owngencount" , "1") ;
+        datamap.put("adress1" , "null") ;
+        datamap.put("adress2" , "null") ;
+        datamap.put("activatingDate" , "Not Active") ;
+
+
+
 
 
 
@@ -193,26 +198,10 @@ boolean isaff  = false  ;
                                     }
                                 }) ;
 
-
-
-
-
-
                             }
                         }) ;
-
-
-
                     }
                 });
-
-
-
-
-
-
-
-
 
     }
 
@@ -263,7 +252,7 @@ boolean isaff  = false  ;
 
         HashMap balmap = new HashMap();
 
-        balmap.put("joining_Bonus" , "0") ;
+        balmap.put("joining_Bonus" , "1") ;
         balmap.put("afflicted_Bonus" , "0") ;
         balmap.put("mutual_Bonus" , "0") ;
         balmap.put("earn_Bonus" , "0") ;
@@ -484,20 +473,23 @@ boolean isaff  = false  ;
                     for (int i = 0; i < TownList.size(); i++) {
 
 
-                        TownNameList.add(TownList.get(i).getUid());
-                        TownNameList.add(TownList.get(i).getGenLvl()) ;
+                            TownNameList.add(TownList.get(i).getUid());
+                            TownNameList.add(TownList.get(i).getGenLvl()) ;
 
-                        showToast(TownList.get(i).getUid());
-
-                        if(!TownList.get(i).getUid().equals(getmyUid()))
-                        {
                             showToast(TownList.get(i).getUid());
-                            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(constants.profileLink)
-                                    .child(TownList.get(i).getUid()).child(constants.baldb).child("earn_Bonus");
+
+                            if(!TownList.get(i).getUid().equals(getmyUid()))
+                            {
+                                showToast(TownList.get(i).getUid());
+                                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(constants.profileLink)
+                                        .child(TownList.get(i).getUid()).child(constants.baldb).child("earn_Bonus");
+
+
+
                                 databaseReference.setValue("yes") ;
 
 
-                        }
+                            }
 
 
 
@@ -529,8 +521,7 @@ boolean isaff  = false  ;
     }
 
 
-    private  void genrateGroupOfMine()
-    {
+    private  void genrateGroupOfMine() {
 
 
         final String UID = FirebaseAuth.getInstance().getUid() ;
@@ -581,8 +572,7 @@ boolean isaff  = false  ;
     }
 
 
-    private  String   getmyUid()
-    {
+    private  String   getmyUid() {
         String i  = FirebaseAuth.getInstance().getUid() ;
 
 
