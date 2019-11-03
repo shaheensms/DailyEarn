@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".FundTransferActivity">
+    tools:context=".activity.FundTransferActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -21,6 +21,7 @@
             android:orientation="vertical">
 
             <TextView
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Fund Transfer"
@@ -69,6 +70,8 @@
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
+                            android:id="@+id/myuserID"
+                            android:focusable="false"
                             android:layout_height="wrap_content"
                             android:background="@color/colorWhite"
                             android:hint="User ID"
@@ -91,8 +94,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="User Name"
+                            android:id="@+id/myusername"
                             android:inputType="text"
                             android:maxLines="1"
+                            android:focusable="false"
                             android:textColorHint="@color/colorTextHint" />
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -136,6 +141,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="62dp"
                             android:hint="User ID"
+                            android:id="@+id/touserID"
                             android:inputType="text"
                             android:maxLines="1"
                             android:textColorHint="@color/colorTextHint" />
@@ -156,6 +162,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="User Name"
+                            android:visibility="gone"
                             android:inputType="text"
                             android:maxLines="1"
                             android:textColorHint="@color/colorTextHint" />
@@ -191,6 +198,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Amount"
+                            android:id="@+id/amount"
                             android:inputType="number"
                             android:maxLines="1"
                             android:textColorHint="@color/colorTextHint" />
@@ -210,13 +218,14 @@
                             android:layout_height="wrap_content"
                             android:hint="Password "
                             android:inputType="textPassword"
+                            android:id="@+id/mypassWord"
                             android:maxLines="1"
                             android:textColorHint="@color/colorTextHint" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <Button
-                        android:id="@+id/login_btn"
+                        android:id="@+id/confirmBtn"
                         android:layout_width="230dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"

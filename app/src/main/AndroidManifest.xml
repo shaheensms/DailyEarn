@@ -27,6 +27,11 @@
         <activity android:name=".LoginActivity">
 
         </activity>
+        <activity android:name=".activity.FundTransferActivity">
+
+
+
+        </activity>
     </application>
 
 </manifest>

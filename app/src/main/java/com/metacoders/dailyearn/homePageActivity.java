@@ -7,15 +7,11 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.FrameLayout;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationView;
 import com.metacoders.dailyearn.adapters.viewPagerAdapter;
-import com.metacoders.dailyearn.fragments.testAcitivy1;
-import com.metacoders.dailyearn.fragments.testActivity2;
-
-import java.security.PrivateKey;
+import com.metacoders.dailyearn.fragments.dashboardFragment;
+import com.metacoders.dailyearn.fragments.balanceFragment;
 
 public class homePageActivity extends AppCompatActivity {
 
@@ -30,14 +26,14 @@ public class homePageActivity extends AppCompatActivity {
 
 
         navigationBar.setOnNavigationItemSelectedListener(navigationItemSelectedListener) ;
-       // getSupportFragmentManager().beginTransaction().replace(R.id.view_pager, new testAcitivy1()).commit();
+       // getSupportFragmentManager().beginTransaction().replace(R.id.view_pager, new dashboardFragment()).commit();
 
 
 //my ViewPager
         viewPagerAdapter adapter = new viewPagerAdapter(getSupportFragmentManager());
 
-        adapter.AddFragment(new testAcitivy1() , "Plan Trip");
-        adapter.AddFragment(new testActivity2() , "Ongoing Trip");
+        adapter.AddFragment(new dashboardFragment() , "Plan Trip");
+        adapter.AddFragment(new balanceFragment() , "Ongoing Trip");
 
 
 

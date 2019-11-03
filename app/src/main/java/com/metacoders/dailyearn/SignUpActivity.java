@@ -263,12 +263,13 @@ boolean isaff  = false  ;
 
         HashMap balmap = new HashMap();
 
-        balmap.put("joining_Bonus" , "null") ;
-        balmap.put("afflicted_Bonus" , "null") ;
-        balmap.put("mutual_Bonus" , "null") ;
-        balmap.put("earn_Bonus" , "null") ;
-        balmap.put("global_profit_share" , "null") ;
-        balmap.put("reward_Bonus" , "null") ;
+        balmap.put("joining_Bonus" , "0") ;
+        balmap.put("afflicted_Bonus" , "0") ;
+        balmap.put("mutual_Bonus" , "0") ;
+        balmap.put("earn_Bonus" , "0") ;
+        balmap.put("global_profit_share" , "0") ;
+        balmap.put("reward_Bonus" , "0") ;
+        balmap.put("equity_balance" , "0") ;
 
         balDb.setValue(balmap).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override

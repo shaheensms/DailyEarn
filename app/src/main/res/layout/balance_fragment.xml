@@ -9,7 +9,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
@@ -56,6 +56,7 @@
                             android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/nameTv"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/black"
@@ -82,6 +83,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="120"
+                                    android:id="@+id/equityBal"
                                     android:gravity="center"
                                     android:background="@drawable/blue_text_back"
                                     android:textStyle="bold"
@@ -95,6 +97,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="Withdraw"
+                                    android:id="@+id/withDraw"
                                     android:gravity="center"
                                     android:background="@drawable/blue_text_back"
                                     android:textStyle="bold"
@@ -135,7 +138,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="xxdbisfi47yd"/>
+                        android:id="@+id/affIDTv"
+                        android:text=""/>
 
                     <Button
                         android:layout_width="48dp"
@@ -215,7 +219,7 @@
                             android:layout_weight="1"
                             android:gravity="center"
                             android:textColor="@color/black"
-                            android:text="Available Balance"/>
+                            android:text="Today`s  Income"/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -262,6 +266,7 @@
                             android:text="0.000015"/>
 
                         <TextView
+                            android:id="@+id/joinBalTotal"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -305,6 +310,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:id="@+id/afftotalBal"
                             android:layout_marginLeft="8dp"
                             android:drawableLeft="@drawable/dollar_icon_24dp"
                             android:drawablePadding="4dp"
@@ -345,6 +351,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:id="@+id/mutualtotalbal"
                             android:layout_marginLeft="8dp"
                             android:drawableLeft="@drawable/dollar_icon_24dp"
                             android:drawablePadding="4dp"
@@ -385,6 +392,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:id="@+id/earntotalBal"
                             android:layout_marginLeft="8dp"
                             android:drawableLeft="@drawable/dollar_icon_24dp"
                             android:drawablePadding="4dp"
@@ -425,6 +433,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="8dp"
+                            android:id="@+id/rewardTotalBal"
                             android:layout_weight="1"
                             android:drawableLeft="@drawable/dollar_icon_24dp"
                             android:drawablePadding="4dp"
@@ -465,6 +474,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:id="@+id/globalProfiteShareTv"
                             android:layout_marginLeft="8dp"
                             android:drawableLeft="@drawable/dollar_icon_24dp"
                             android:drawablePadding="4dp"
@@ -509,7 +519,7 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/withdraw_icon"
+                            android:src="@drawable/ic_activity"
                             android:layout_margin="4dp"/>
 
                         <LinearLayout
@@ -535,6 +545,7 @@
                                 android:layout_height="20dp"
                                 android:textColor="@color/white"
                                 android:layout_margin="4dp"
+                                android:id="@+id/convertBal"
                                 android:background="@drawable/blue_text_back"
                                 android:text="Click Here" />
 
