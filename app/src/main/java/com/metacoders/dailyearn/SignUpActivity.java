@@ -205,44 +205,6 @@ boolean isaff  = false  ;
 
     }
 
-    private  void createlvl() {
-        String uid = mAuth.getUid() ;
-
-        DatabaseReference profileDb = FirebaseDatabase.getInstance().getReference(constants.profileLink).child(uid).child(constants.gen);
-
-        HashMap genmap = new HashMap();
-
-        genmap.put("lvl1" , "null");
-        genmap.put("lvl2" , "null");
-        genmap.put("lvl3" , "null");
-        genmap.put("lvl4" , "null");
-        genmap.put("lvl5" , "null");
-        genmap.put("lvl6" , "null");
-        genmap.put("lvl7" , "null");
-        genmap.put("lvl8" , "null");
-        genmap.put("lvl9" , "null");
-        genmap.put("lvl10" , "null");
-        genmap.put("lvl11" , "null");
-        genmap.put("lvl12" , "null");
-        genmap.put("lvl13" , "null");
-        genmap.put("lvl14" , "null");
-        genmap.put("lvl15" , "null");
-
-        profileDb.setValue(genmap).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-
-                // proceed with the balance generation
-
-                balnaceCreation();
-
-            }
-        }) ;
-
-
-
-
-    }
     private  void balnaceCreation( ){
 
         String uid = mAuth.getUid() ;
@@ -271,7 +233,6 @@ boolean isaff  = false  ;
 
 
     }
-
 
     private  void checkingusername() {
         DatabaseReference userNameRef = FirebaseDatabase.getInstance().getReference("userNameDb").child(username);
