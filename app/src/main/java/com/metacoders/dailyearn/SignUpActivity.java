@@ -3,15 +3,19 @@ package com.metacoders.dailyearn;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -19,9 +23,17 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.metacoders.dailyearn.activity.homePageActivity;
+import com.metacoders.dailyearn.models.modelForBalDb;
 import com.metacoders.dailyearn.models.modelForProfile;
 import com.metacoders.dailyearn.models.modelForaddDb;
 import com.metacoders.dailyearn.models.modelForafflitaion;
+import com.mobsandgeeks.saripaar.ValidationError;
+import com.mobsandgeeks.saripaar.Validator;
+import com.mobsandgeeks.saripaar.annotation.ConfirmPassword;
+import com.mobsandgeeks.saripaar.annotation.Email;
+import com.mobsandgeeks.saripaar.annotation.NotEmpty;
+import com.mobsandgeeks.saripaar.annotation.Password;
 import com.rilixtech.widget.countrycodepicker.CountryCodePicker;
 
 import java.lang.reflect.Array;
@@ -30,19 +42,36 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
+import java.util.Vector;
 
-public class SignUpActivity extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity implements Validator.ValidationListener {
     CountryCodePicker ccp;
     String  countryCode  ;
-    TextInputEditText fnameinput , lnameinput , emailinput , passinput , confirmpassinput , affliationinput  , mobileinput
-           , usernameinput , dobpicker ;
-    String  name , genCount=  "1" , owngenCount = "1" ,  email  , headLead = "null" , pass ,confirmpass , affliation , mobilenum , dateOfBirth , countryName  , username  , affliatedOf  = "null"   ;
+    TextInputEditText fnameinput , lnameinput ,  affliationinput
+            , usernameinput , dobpicker ;
+
+    @NotEmpty
+    @Email
+    TextInputEditText emailinput  ;
+    @ConfirmPassword
+    TextInputEditText confirmpassinput ;
+    @Password(min = 6)
+    TextInputEditText passinput  ;
+
+    TextInputEditText mobileinput ;
+    String  name  , genCount=  "1" , owngenCount = "1" ,  email  , headLead = "null" , pass ,confirmpass , affliation , mobilenum , dateOfBirth , countryName  , username  , affliatedOf  = "null"   ;
     Button signUp ;
+    int bonus ;
+    int gen , generation ;
     FirebaseAuth mAuth ;
     String newPath ;
-     String aff  = "null";
-boolean isaff  = false  ;
+    String aff  = "null";
+    final ArrayList<modelForafflitaion> TownList = new ArrayList<>();
+    final ArrayList<String> TownNameList = new ArrayList<>();
+    boolean isaff  = false  ;
+    int y ;
 
 
 
@@ -51,7 +80,7 @@ boolean isaff  = false  ;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-      //init views
+        //init views
         ccp = (CountryCodePicker) findViewById(R.id.ccp);
         fnameinput = findViewById(R.id.fname) ;
         lnameinput = findViewById(R.id.lname) ;
@@ -64,24 +93,27 @@ boolean isaff  = false  ;
         usernameinput = findViewById(R.id.userName) ;
         Button signout = findViewById(R.id.signout);
 
-
+        final Validator   validator = new Validator(this);
+        validator.setValidationListener(SignUpActivity.this);
         signout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
 
                 FirebaseAuth ma = FirebaseAuth.getInstance();
-               ma.signOut();
-               showToast("SIGNOUT ");
+                ma.signOut();
+                showToast("SIGNOUT ");
             }
         });
-      // countryCode = ccp.getSelectedCountryCodeWithPlus() ;
+        // countryCode = ccp.getSelectedCountryCodeWithPlus() ;
 
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getDataFromViews() ;
-                checkingusername();
+
+
+                validator.validate();
+
 
 
 
@@ -109,9 +141,7 @@ boolean isaff  = false  ;
 
                             uploadProfileDataToFirebase() ;
 
-                            if(isaff){
-                                registeraffliation(affliatedOf , genCount , headLead )  ;
-                            }
+
 
 
 
@@ -128,13 +158,71 @@ boolean isaff  = false  ;
 
     }
 
+    private void registerAsAffliation() {
+
+        DatabaseReference  afffRef  = FirebaseDatabase.getInstance().getReference(constants.profileLink).child(affliatedOf);
+
+        afffRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                modelForProfile model = dataSnapshot.getValue(modelForProfile.class);
+
+                String affLink = model.getHeadLead() ;
+                String  g = model.getOwngencount() ;
+
+                gen  = Integer.parseInt(g) ;
+
+                gen = gen + 1  ;
+                headLead = affLink +  "+" + getmyUid()  ;
+
+
+
+
+                // now upload the data
+
+                DatabaseReference mp = FirebaseDatabase.getInstance().getReference(constants.profileLink).child(getmyUid());
+
+                mp.child("owngencount").setValue(String.valueOf(gen)) ;
+                mp.child("headLead").setValue(headLead).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+
+                        genrateGroupOfMine();
+
+
+                    }
+                }) ;
+
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    }
+
+
     private void uploadProfileDataToFirebase() {
-        String delegate = "hh:mm aaa";
-        String  Time = String.valueOf(DateFormat.format(delegate, Calendar.getInstance().getTime()));
         String   DATE = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
-
-        DATE = DATE + " "+Time;
-
 
         final String uid = mAuth.getUid() ;
 
@@ -165,11 +253,15 @@ boolean isaff  = false  ;
         datamap.put("uid", uid) ;
         datamap.put("genCount" , genCount);
         datamap.put("status" ,"inactive");
-         aff = createAfliationCode(mobilenum , uid , username);
+        aff = createAfliationCode(mobilenum , uid , username);
         datamap.put("my_AffiliationId" , aff) ;
         datamap.put("joining_Date" , DATE) ;
-        datamap.put("headLead"  , "null" ) ;
+        datamap.put("headLead"  , uid ) ;
         datamap.put("owngencount" , "1") ;
+        datamap.put("adress1" , "null") ;
+        datamap.put("adress2" , "null") ;
+        datamap.put("activatingDate" , "Not Active") ;
+
 
 
 
@@ -189,13 +281,20 @@ boolean isaff  = false  ;
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
 
-                                        genrateGroupOfMine();
+                                        balnaceCreation();
+
+                                        if(isaff)
+                                        {
+                                            showToast("working with affliation");
+                                            registerAsAffliation() ;
+
+                                        }
+
+                                        else gotonext();
+
+                                        //  genrateGroupOfMine();
                                     }
                                 }) ;
-
-
-
-
 
 
                             }
@@ -216,44 +315,8 @@ boolean isaff  = false  ;
 
     }
 
-    private  void createlvl() {
-        String uid = mAuth.getUid() ;
-
-        DatabaseReference profileDb = FirebaseDatabase.getInstance().getReference(constants.profileLink).child(uid).child(constants.gen);
-
-        HashMap genmap = new HashMap();
-
-        genmap.put("lvl1" , "null");
-        genmap.put("lvl2" , "null");
-        genmap.put("lvl3" , "null");
-        genmap.put("lvl4" , "null");
-        genmap.put("lvl5" , "null");
-        genmap.put("lvl6" , "null");
-        genmap.put("lvl7" , "null");
-        genmap.put("lvl8" , "null");
-        genmap.put("lvl9" , "null");
-        genmap.put("lvl10" , "null");
-        genmap.put("lvl11" , "null");
-        genmap.put("lvl12" , "null");
-        genmap.put("lvl13" , "null");
-        genmap.put("lvl14" , "null");
-        genmap.put("lvl15" , "null");
-
-        profileDb.setValue(genmap).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-
-                // proceed with the balance generation
-
-                balnaceCreation();
-
-            }
-        }) ;
 
 
-
-
-    }
     private  void balnaceCreation( ){
 
         String uid = mAuth.getUid() ;
@@ -263,7 +326,7 @@ boolean isaff  = false  ;
 
         HashMap balmap = new HashMap();
 
-        balmap.put("joining_Bonus" , "0") ;
+        balmap.put("joining_Bonus" , "1") ;
         balmap.put("afflicted_Bonus" , "0") ;
         balmap.put("mutual_Bonus" , "0") ;
         balmap.put("earn_Bonus" , "0") ;
@@ -271,11 +334,12 @@ boolean isaff  = false  ;
         balmap.put("reward_Bonus" , "0") ;
         balmap.put("equity_balance" , "0") ;
 
+
         balDb.setValue(balmap).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
 
-                giveBonusTothehigherGen();
+
 
             }
         }) ;
@@ -339,44 +403,10 @@ boolean isaff  = false  ;
                     modelForaddDb modell =  dataSnapshot.getValue(modelForaddDb.class) ;
                     affliatedOf = modell.getUid() ;
 
+                    // now get the generation count from there .
+                    getTheGenCountFromAff(affliatedOf) ;
 
-
-
-                    DatabaseReference  rr = FirebaseDatabase.getInstance().getReference("affliationGroup").child(affliatedOf);
-
-                    rr.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            modelForafflitaion model =  dataSnapshot.getValue(modelForafflitaion.class) ;
-
-
-                            genCount = model.getGenCount() ;
-                            headLead = model.getHead();
-
-
-
-                                signupingoogle();
-
-
-
-
-
-
-
-
-
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
-
-
-
-
-            //        signupingoogle();
+                 //   signupingoogle();
 
                 }
                 else {
@@ -396,41 +426,30 @@ boolean isaff  = false  ;
 
     }
 
-    private void registeraffliation(final String affliatedOf, final String genCountt, String HeadLeaad) {
+    private void getTheGenCountFromAff(String affliatedOf) {
 
 
-      final  String uidds = FirebaseAuth.getInstance().getUid() ;
-        String lv = "lvl"+genCountt  ;
-        DatabaseReference create = FirebaseDatabase.getInstance().getReference("affliationGroup").child(affliatedOf).child(uidds);
+        DatabaseReference addRef = FirebaseDatabase.getInstance().getReference(constants.profileLink).child(affliatedOf);
 
-        modelForafflitaion modelForafflitaion =new modelForafflitaion(uidds , genCountt , HeadLeaad , lv) ;
-
-        create.setValue(modelForafflitaion) ;
-
-        DatabaseReference createaffdb = FirebaseDatabase.getInstance().getReference("affdblist").child(affliation).child("lists").child(uidds);
-
-
-        modelForafflitaion modelForlist =new modelForafflitaion(uidds , genCountt , HeadLeaad , lv) ;
-
-        createaffdb.setValue(modelForlist) ;
-
-
-
-        int newgen  =  Integer.parseInt(genCount)+1 ;
-        DatabaseReference update = FirebaseDatabase.getInstance().getReference("affliationGroup").child(affliatedOf).child("genCount");
-        genCount = newgen + "";
-        update.setValue(String.valueOf(newgen)).addOnCompleteListener(new OnCompleteListener<Void>() {
+        addRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onComplete(@NonNull Task<Void> task) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-              //  signupingoogle();
+             //   modelForafflitaion modelForafflitaion = dataSnapshot.getValue(modelForafflitaion.class) ;
 
-
+             //   generation = Integer.parseInt(modelForafflitaion.getGenCount()) ;
 
 
 
             }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
         });
+        signupingoogle();
+
     }
 
 
@@ -445,11 +464,9 @@ boolean isaff  = false  ;
         username = usernameinput.getText().toString();
 
 
-
-
     }
     private  void showToast(String s) {
-        Toast.makeText(SignUpActivity.this , s , Toast.LENGTH_LONG)
+        Toast.makeText(SignUpActivity.this , s , Toast.LENGTH_SHORT)
                 .show();
 
     }
@@ -460,9 +477,38 @@ boolean isaff  = false  ;
         // now the hard work
         /* we have the list of  the use */
 
-        //  DatabaseReference mref  = FirebaseDatabase.getInstance().getReference("affdblist").child(aff);
-        final ArrayList<modelForafflitaion> TownList = new ArrayList<>();
-        final ArrayList<String> TownNameList = new ArrayList<>();
+        DatabaseReference mref  = FirebaseDatabase.getInstance().getReference(constants.profileLink).child(affliatedOf);
+
+        mref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+
+                modelForProfile  mode = dataSnapshot.getValue(modelForProfile.class) ;
+
+                //  headLead = mode.getHeadLead()  ;
+                int genlv = Integer.parseInt(mode.getOwngencount() );
+
+                spiltheadleadintouids(headLead, gen) ;
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+        //
+
+
+
+
+        /*
+
 
         DatabaseReference mref = FirebaseDatabase.getInstance().getReference("affdblist").child(affliation).child("lists");
         mref.addValueEventListener(new ValueEventListener() {
@@ -517,10 +563,140 @@ boolean isaff  = false  ;
             }
         });
 
+*/
+
+
 
     }
 
-            private  String  createAfliationCode(String phn  , String uid , String name ) {
+    private void spiltheadleadintouids(String headlead , int genlvl)
+    {
+
+        // showToast(headlead);
+
+        Vector< String > vector = new Vector<>();                  // Storage
+
+        String str = headlead ;
+
+        StringBuilder temp = new StringBuilder();               // To temporarily store our desired string.
+
+        for(Object i : str.toCharArray()){                      // Yeah, we need Object class since we don't have auto or autoptr in Java to run a foreach loop. Yare yare-daze.
+            if(Character.isLetterOrDigit((Character) i))               // This method returns a boolean value of parameter. True if the parameter is alphanumeric.
+                temp.append(i.toString());                      // Concatenation of a string just like C++14
+            else{
+                if(!temp.toString().equals(""))                 // We don't want blank string on our vector, do we?
+                    vector.add(temp.toString());
+                temp = new StringBuilder();                     // Allocates a new memory location for the StringBuilder, basically emptying the StringBuilder.
+            }
+        }
+
+        if(!temp.toString().isEmpty())                          // A special case is when no symbols or numbers are given input. In that case add the original string.
+            vector.add(temp.toString());
+        y = genlvl -1  ;
+        // showToast("gentes" + y);
+        //System.out.println("Case " + tst.toString() + ":");
+        for(final Object i : vector)
+        {
+
+            if(i.toString().equals(getmyUid()))
+            {
+                // add bonus level accorudlingly
+
+            }
+            else
+
+            {
+                wrteBonus(i.toString() , y ) ;
+
+            }
+
+            //    System.out.println("vector["+ y +  "] -> " + i.toString() + "");
+
+            y-- ;
+        }
+
+
+        Handler  handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                gotonext();
+
+            }
+        } , 1500) ;
+
+    }
+
+    private void wrteBonus(final String s, final int Y) {
+
+        /// read the data from the server
+        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference(constants.profileLink)
+                .child(s).child(constants.baldb);
+
+
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                modelForBalDb   model = dataSnapshot.getValue(modelForBalDb.class) ;
+
+
+                bonus =Integer.parseInt(model.getEarn_Bonus());
+                showToast(Y+ "y");
+
+                if(Y == 5)
+                {
+
+                    bonus = bonus+ 5000;
+
+                }
+
+                else   if(Y == 4)
+                {
+
+                    bonus = bonus+ 4000;
+
+                }
+
+             else   if(Y == 3)
+                {
+
+                    bonus = bonus+ 3000;
+
+                }
+
+                else if ( Y == 2)
+                    bonus = bonus+ 2000 ;
+                else if ( Y == 1)
+                    bonus = bonus+ 1000;
+
+                else if ( Y == 0)
+                    bonus = bonus+ 4554454;
+
+                databaseReference.child("earn_Bonus").setValue(String.valueOf(bonus)).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+
+                        // showToast(s);
+                        // databaseReference.child("reward_Bonus").setValue("ajnsdkjf") ;
+
+                    }
+                });
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+
+    }
+
+    private  String  createAfliationCode(String phn  , String uid , String name ) {
         String delegate = "hh";
         String  Time = String.valueOf(DateFormat.format(delegate, Calendar.getInstance().getTime()));
 
@@ -529,51 +705,21 @@ boolean isaff  = false  ;
     }
 
 
-    private  void genrateGroupOfMine()
-    {
+    private  void genrateGroupOfMine() {
 
 
-        final String UID = FirebaseAuth.getInstance().getUid() ;
-
-         DatabaseReference gengrop = FirebaseDatabase.getInstance().getReference("affliationGroup").child(UID);
-
-
-        HashMap genmap = new HashMap();
-
-
-        genmap.put("head" ,  headLead ) ;
-        genmap.put("genCount" ,"1");
-        genmap.put("uid" , FirebaseAuth.getInstance().getUid()) ;
-
-        /*
-        genmap.put("lvl1" , "null");
-        genmap.put("lvl2" , "null");
-        genmap.put("lvl3" , "null");
-        genmap.put("lvl4" , "null");
-        genmap.put("lvl5" , "null");
-        genmap.put("lvl6" , "null");
-        genmap.put("lvl7" , "null");
-        genmap.put("lvl8" , "null");
-        genmap.put("lvl9" , "null");
-        genmap.put("lvl10" , "null");
-        genmap.put("lvl11" , "null");
-        genmap.put("lvl12" , "null");
-        genmap.put("lvl13" , "null");
-        genmap.put("lvl14" , "null");
-        genmap.put("lvl15" , "null");
-*/
-
-        gengrop.setValue(genmap)
+        DatabaseReference mref  = FirebaseDatabase.getInstance().getReference("affdblist").child(affliation);
+        mref.child("list").child(getmyUid()).child("uid").setValue(getmyUid())
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
 
-                     //   DatabaseReference  updateProfile = FirebaseDatabase.getInstance().getReference(constants.profileLink).child(UID).child("");
+                        //   balnaceCreation();
 
-                        balnaceCreation();
+                        giveBonusTothehigherGen();
+
                     }
-                }) ;
-
+                })        ;
 
 
 
@@ -591,7 +737,34 @@ boolean isaff  = false  ;
 
 
 
+    private  void gotonext()
+    {
+        Intent o = new Intent(getApplicationContext()  , homePageActivity.class);
+        startActivity(o);
 
 
 
+    }
+
+
+    @Override
+    public void onValidationSucceeded() {
+        getDataFromViews() ;
+        checkingusername();
+
+    }
+
+    @Override
+    public void onValidationFailed(List<ValidationError> errors) {
+
+        for (ValidationError error : errors) {
+            View view = error.getView();
+            String message = error.getCollatedErrorMessage(this);
+            if (view instanceof TextInputLayout) {
+                ((TextInputLayout) view).setError(message);
+            } else {
+                Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+            }
+        }
+    }
 }

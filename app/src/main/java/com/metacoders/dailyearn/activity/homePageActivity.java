@@ -1,4 +1,4 @@
-package com.metacoders.dailyearn;
+package com.metacoders.dailyearn.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,9 +9,11 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.metacoders.dailyearn.R;
 import com.metacoders.dailyearn.adapters.viewPagerAdapter;
-import com.metacoders.dailyearn.fragments.dashboardFragment;
 import com.metacoders.dailyearn.fragments.balanceFragment;
+import com.metacoders.dailyearn.fragments.dashboardFragment;
+import com.metacoders.dailyearn.fragments.profileFragment;
 
 public class homePageActivity extends AppCompatActivity {
 
@@ -34,6 +36,7 @@ public class homePageActivity extends AppCompatActivity {
 
         adapter.AddFragment(new dashboardFragment() , "Plan Trip");
         adapter.AddFragment(new balanceFragment() , "Ongoing Trip");
+        adapter.AddFragment(new profileFragment() , "Profile");
 
 
 
@@ -83,6 +86,10 @@ private     BottomNavigationView.OnNavigationItemSelectedListener  navigationIte
 
                         case R.id.activity :
                             viewPager.setCurrentItem(1);
+                            break;
+
+                        case R.id.favorites :
+                            viewPager.setCurrentItem(2);
                             break;
 
                     }

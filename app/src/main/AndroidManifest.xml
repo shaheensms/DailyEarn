@@ -11,10 +11,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".DepositHistoryActivity"></activity>
-        <activity android:name=".FundTransferHistoryActivity" />
-        <activity android:name=".MutualFundActivity" />
-        <activity android:name=".homePageActivity">
+        <activity android:name=".activity.packageListActivity">
+
+
+        </activity>
+        <activity android:name=".activity.productListActivity" >
+
+        </activity>
+        <activity android:name=".activity.homePageActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

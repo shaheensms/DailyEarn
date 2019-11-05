@@ -19,12 +19,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.metacoders.dailyearn.R;
+import com.metacoders.dailyearn.SignUpActivity;
 import com.metacoders.dailyearn.adapters.viewHolderForPackage;
 import com.metacoders.dailyearn.adapters.viewholdersForProducts;
 import com.metacoders.dailyearn.models.modelForPakage;
@@ -39,7 +41,7 @@ public class dashboardFragment extends Fragment {
     FirebaseRecyclerOptions<modelForProducts> options ;
     FirebaseRecyclerAdapter<modelForProducts , viewholdersForProducts> firebaseRecyclerAdapter ;
     View view;
-TextView affTv  ;
+    TextView affTv  ;
 
     public dashboardFragment() {
 
@@ -52,6 +54,23 @@ TextView affTv  ;
         view = inflater.inflate(R.layout.dashboard_fragment, container, false);
      TextView tv=view.findViewById(R.id.newsTicker);
         affTv = view.findViewById(R.id.affLinkTv) ;
+
+
+        affTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                FirebaseAuth mauth = FirebaseAuth.getInstance();
+                mauth.signOut();
+                Intent i = new Intent(getContext(), SignUpActivity.class);
+                startActivity(i);
+
+
+
+
+            }
+        });
+
 
        tv.setSelected(true);
 
@@ -119,8 +138,7 @@ TextView affTv  ;
 
     }
 
-    public  void loadProduts()
-    {
+    public  void loadProduts() {
 
 
 
