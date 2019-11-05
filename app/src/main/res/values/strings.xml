@@ -1,10 +1,10 @@
 <resources>
     <string name="app_name">Daily Earn</string>
-    <string-array name="balanceList" >
-        <item >Apple</item>
-        <item >Mango</item>
-        <item >Orange</item>
-        <item >Pineapple</item>
+    <string-array name="balanceList">
+        <item>Apple</item>
+        <item>Mango</item>
+        <item>Orange</item>
+        <item>Pineapple</item>
     </string-array>
     <string name="products_detais">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that</string>
 </resources>
