@@ -28,7 +28,9 @@ import com.google.firebase.database.ValueEventListener;
 import com.metacoders.dailyearn.R;
 import com.metacoders.dailyearn.SignUpActivity;
 import com.metacoders.dailyearn.adapters.viewHolderForPackage;
+import com.metacoders.dailyearn.adapters.viewHoldersForMutual;
 import com.metacoders.dailyearn.adapters.viewholdersForProducts;
+import com.metacoders.dailyearn.models.modelForMutulPatner;
 import com.metacoders.dailyearn.models.modelForPakage;
 import com.metacoders.dailyearn.models.modelForProducts;
 import com.metacoders.dailyearn.models.modelForProfile;
@@ -88,6 +90,7 @@ public class dashboardFragment extends Fragment {
             }
         } , 1000) ;
 
+        loadMutualPackage();
 
         return view ;
     }
@@ -186,7 +189,53 @@ public class dashboardFragment extends Fragment {
 
 
     }
+    public  void loadMutualPackage()
+    {
+        FirebaseRecyclerOptions<modelForMutulPatner> optionss ;
+        FirebaseRecyclerAdapter<modelForMutulPatner , viewHoldersForMutual> firebaseRecyclerAdapter ;
+        //mutualList
+        mrecyclerview = (RecyclerView) view.findViewById(R.id.mutualList) ;
 
+        linearLayoutManager = new LinearLayoutManager(getContext() , LinearLayoutManager.HORIZONTAL  ,false);
+
+
+        linearLayoutManager.setStackFromEnd(true);
+        linearLayoutManager.setReverseLayout(true);
+
+        //   mrecyclerview.setLayoutManager(linearLayoutManager) ;
+        mrecyclerview.setHasFixedSize(true);
+
+
+
+        mref = FirebaseDatabase.getInstance().getReference("mutualFundPackageList"); // db link
+        optionss = new FirebaseRecyclerOptions.Builder<modelForMutulPatner>().setQuery(mref , modelForMutulPatner.class).build();
+        firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<modelForMutulPatner, viewHoldersForMutual>(optionss) {
+            @Override
+            protected void onBindViewHolder(@NonNull viewHoldersForMutual viewholdersforMutual,final int i, @NonNull modelForMutulPatner model) {
+
+
+                viewholdersforMutual.setData(getContext() , model.getName()   , model.getName() , model.getPrice());
+
+
+            }
+
+            @NonNull
+            @Override
+            public viewHoldersForMutual onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
+                View iteamVIew = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_partnership, parent, false);
+                final viewHoldersForMutual viewholders = new viewHoldersForMutual(iteamVIew);
+
+                return viewholders;
+            }
+        };
+        mrecyclerview.setLayoutManager(linearLayoutManager) ;
+        firebaseRecyclerAdapter.startListening();
+        mrecyclerview.setAdapter(firebaseRecyclerAdapter);
+
+
+
+    }
 
  public  void createSomeData()
  {

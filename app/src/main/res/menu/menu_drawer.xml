@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+        <item
+            android:id="@+id/fundTransfer"
+            android:checked="true"
+            android:title="Fund Transfer" />
+
+        <item
+            android:id="@+id/productlist"
+            android:checked="false"
+            android:title="Product List"
+            />
+        <item
+            android:id="@+id/packagelistMenu"
+            android:checked="false"
+            android:title="Packages List"
+            />
+
+        <item
+            android:id="@+id/menu_go_logout"
+            android:checked="false"
+            android:title="Log Out" />
+
+
+
+</menu>

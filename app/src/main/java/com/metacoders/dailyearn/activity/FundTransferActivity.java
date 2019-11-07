@@ -20,15 +20,20 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.metacoders.dailyearn.R;
 import com.metacoders.dailyearn.models.modelForBalance;
+import com.metacoders.dailyearn.models.modelForHIstory;
 import com.metacoders.dailyearn.models.modelForProfile;
 import com.metacoders.dailyearn.models.modelForUid;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class FundTransferActivity extends AppCompatActivity {
 
     TextInputEditText mynamein, myuserIDin, touserIDin, amuntin, passin;
     String myname, myuser, touserId, amount, pass , checkPass;
     Button conbtn;
-
+    String sentID ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +86,7 @@ public class FundTransferActivity extends AppCompatActivity {
 
 
                     // carry on with the transfer
+                    sentID = model.getUid() ;
                      transferFund(  model.getUid() );
 
 
@@ -189,6 +195,7 @@ public class FundTransferActivity extends AppCompatActivity {
     }
 
     private void deductTheFund() {
+        //TODO change uid
         String uid = FirebaseAuth.getInstance().getUid();
         final DatabaseReference mref =  FirebaseDatabase.getInstance().getReference("profile").child("MUIdCk609CZBr4ZZTd8Mc9kpzDJ2").child("balanceDb");
         mref.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -207,7 +214,34 @@ public class FundTransferActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
 
-                                showToast("DONE!!");
+
+                        DatabaseReference  st = FirebaseDatabase.getInstance().getReference("profile").child("MUIdCk609CZBr4ZZTd8Mc9kpzDJ2").child("transHistory");
+
+                        final String key  = st.push().getKey() ;
+                      //  String reason, String status, String date, String amount
+                        String   DATE = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+                        final modelForHIstory modelForHIstory = new modelForHIstory(key  , key , "You Sent "+ amount + "To " + touserId,   "Completed",DATE ,amount) ;
+
+                        st.child(key).setValue(modelForHIstory).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                DatabaseReference  st = FirebaseDatabase.getInstance().getReference("profile").child(sentID).child("transHistory");
+
+                                //  String reason, String status, String date, String amount
+                                String   DATE = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+                                modelForHIstory modelForHIstoryf = new modelForHIstory(key  , key , "You Received  "+ amount + "From " + myuserIDin.getText() , "Completed",DATE ,amount) ;
+
+                                st.child(key).setValue(modelForHIstoryf).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        showToast("DONE!!");
+                                    }
+                                }) ;
+
+
+                            }
+                        }) ;
+
 
                     }
                 }) ;

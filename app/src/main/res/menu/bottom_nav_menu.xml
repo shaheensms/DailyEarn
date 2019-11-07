@@ -17,8 +17,8 @@
         android:title="Favorites"
         />
     <item
-        android:id="@+id/settings"
+        android:id="@+id/history"
         android:icon="@drawable/ic_settings"
-        android:title="Settings"
+        android:title="History"
         />
 </menu>

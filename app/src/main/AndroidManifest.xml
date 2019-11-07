@@ -18,20 +18,24 @@
         <activity android:name=".activity.productListActivity" >
 
         </activity>
-        <activity android:name=".activity.homePageActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+        <activity android:name=".activity.homePageActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".DepositSelectActivity" />
         <activity android:name=".DailyActivity" />
         <activity android:name=".BestOfferActivity" />
         <activity android:name=".AccountSetupActivity" />
         <activity android:name=".SignUpActivity" />
-        <activity android:name=".LoginActivity" />
+        <activity android:name=".LoginActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".activity.FundTransferActivity" />
+
     </application>
 
 </manifest>
