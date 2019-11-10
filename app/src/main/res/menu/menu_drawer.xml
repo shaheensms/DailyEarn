@@ -1,28 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <item
+        android:id="@+id/profile"
+        android:checked="false"
+        android:title="Profile" />
 
-        <item
-            android:id="@+id/fundTransfer"
-            android:checked="true"
-            android:title="Fund Transfer" />
+    <item
+        android:id="@+id/my_affiliation"
+        android:checked="false"
+        android:title="My Affiliation" />
 
-        <item
-            android:id="@+id/productlist"
-            android:checked="false"
-            android:title="Product List"
-            />
-        <item
-            android:id="@+id/packagelistMenu"
-            android:checked="false"
-            android:title="Packages List"
-            />
+    <item
+        android:id="@+id/best_offer"
+        android:checked="false"
+        android:title="Best Offer" />
 
-        <item
-            android:id="@+id/menu_go_logout"
-            android:checked="false"
-            android:title="Log Out" />
+    <item
+        android:id="@+id/daily_activity"
+        android:checked="false"
+        android:title="Daily Activity" />
 
+    <item
+        android:checked="false"
+        android:title="Fund Transaction ">
+
+        <menu>
+            <group android:checkableBehavior="all"
+                android:menuCategory="secondary">
+
+                <item
+                    android:id="@+id/deposit"
+                    android:title="Deposit" />
+
+                <item
+                    android:id="@+id/withdraw"
+                    android:title="Withdraw" />
+
+                <item
+                    android:id="@+id/fundTransfer"
+                    android:title="Fund Transfer" />
+
+                <item
+                    android:id="@+id/bal_convert"
+                    android:title="Balance Convert" />
+
+            </group>
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/tree_view"
+        android:checked="false"
+        android:title="Tree View" />
+
+    <item
+        android:id="@+id/productlist"
+        android:checked="false"
+        android:title="Product List" />
+    <item
+        android:id="@+id/packagelistMenu"
+        android:checked="false"
+        android:title="Packages List" />
+
+    <item
+        android:id="@+id/up_coming"
+        android:checked="false"
+        android:title="Up Coming Products" />
+
+    <item
+        android:id="@+id/menu_go_logout"
+        android:checked="false"
+        android:title="Log Out" />
 
 
 </menu>

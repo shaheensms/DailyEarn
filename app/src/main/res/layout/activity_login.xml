@@ -65,7 +65,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="48dp">
+                android:layout_marginTop="16dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -82,7 +82,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="32dp">
+                android:layout_marginTop="8dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"

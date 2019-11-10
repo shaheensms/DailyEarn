@@ -18,6 +18,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.metacoders.dailyearn.activity.FundTransferActivity;
+import com.metacoders.dailyearn.activity.homePageActivity;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -97,7 +98,7 @@ TextView signUp ;
                             // Sign in success, update UI with the signed-in user's information
                           //  Log.d(TAG, "signInWithEmail:success");
                             pbar.setVisibility(View.GONE);
-                            Intent intent = new Intent(LoginActivity.this, FundTransferActivity.class);
+                            Intent intent = new Intent(LoginActivity.this, homePageActivity.class);
                             startActivity(intent);
                             finish();
                         } else {
