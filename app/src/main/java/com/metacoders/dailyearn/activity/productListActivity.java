@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,11 +52,35 @@ public class productListActivity extends AppCompatActivity {
         options = new FirebaseRecyclerOptions.Builder<modelForProducts>().setQuery(mref , modelForProducts.class).build();
         firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<modelForProducts, viewholdersForProducts>(options) {
             @Override
-            protected void onBindViewHolder(@NonNull viewholdersForProducts viewholdersForProducts, final int i, @NonNull modelForProducts model) {
+            protected void onBindViewHolder(@NonNull viewholdersForProducts viewholdersForProducts, final int i, @NonNull  final modelForProducts model) {
 
 
                 viewholdersForProducts.setdataToview(getApplicationContext() ,  model.getId()  , model.getName() , model.getPrice()  , model.getDiscount()
                         , model.getDisc()  , model.getLink());
+
+
+                viewholdersForProducts.setOnClickListener(new viewholdersForProducts.ClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+
+
+                        Intent o  =  new Intent(getApplicationContext() , ProductDetailActivity.class);
+                        o.putExtra("name" , model.getName()) ;
+                        o.putExtra("price" , model.getPrice()) ;
+                        o.putExtra("imageLink" , model.getLink()) ;
+                        o.putExtra("details" , model.getDisc()) ;
+                        startActivity(o);
+
+
+
+
+                    }
+
+                    @Override
+                    public void onItemLongClick(View view, int position) {
+
+                    }
+                });
 
 
             }

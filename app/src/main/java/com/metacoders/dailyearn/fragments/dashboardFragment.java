@@ -27,6 +27,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.metacoders.dailyearn.R;
 import com.metacoders.dailyearn.SignUpActivity;
+import com.metacoders.dailyearn.activity.ProductDetailActivity;
 import com.metacoders.dailyearn.adapters.viewHolderForPackage;
 import com.metacoders.dailyearn.adapters.viewHoldersForMutual;
 import com.metacoders.dailyearn.adapters.viewholdersForProducts;
@@ -164,12 +165,35 @@ public class dashboardFragment extends Fragment {
         options = new FirebaseRecyclerOptions.Builder<modelForProducts>().setQuery(mref , modelForProducts.class).build();
         firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<modelForProducts, viewholdersForProducts>(options) {
             @Override
-            protected void onBindViewHolder(@NonNull viewholdersForProducts viewholdersForProducts,final int i, @NonNull modelForProducts model) {
+            protected void onBindViewHolder(@NonNull viewholdersForProducts viewholdersForProducts,final int i, @NonNull final modelForProducts model) {
 
 
                 viewholdersForProducts.setdataToview(getContext() ,  model.getId()  , model.getName() , model.getPrice()  , model.getDiscount()
                  , model.getDisc()  , model.getLink());
 
+
+                viewholdersForProducts.setOnClickListener(new viewholdersForProducts.ClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+
+
+                        Intent o  =  new Intent(getContext() , ProductDetailActivity.class);
+                        o.putExtra("name" , model.getName()) ;
+                        o.putExtra("price" , model.getPrice()) ;
+                        o.putExtra("imageLink" , model.getLink()) ;
+                        o.putExtra("details" , model.getDisc()) ;
+                        startActivity(o);
+
+
+
+
+                    }
+
+                    @Override
+                    public void onItemLongClick(View view, int position) {
+
+                    }
+                });
 
             }
 
@@ -179,6 +203,9 @@ public class dashboardFragment extends Fragment {
 
                 View iteamVIew = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_for_products, parent, false);
                 final viewholdersForProducts viewholders = new viewholdersForProducts(iteamVIew);
+
+
+
 
                 return viewholders;
             }
