@@ -71,6 +71,13 @@ public class homePageActivity extends AppCompatActivity {
                         /// log out
 
                         return true;
+                    case R.id.daily_activity:
+                        Intent igfi  = new Intent(getApplicationContext()  , dailyActivity.class);
+                        startActivity(igfi);
+                    /// log out
+
+                    return true;
+
                     default:
                         return true;
                 }

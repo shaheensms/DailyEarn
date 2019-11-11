@@ -44,6 +44,8 @@ public class dashboardFragment extends Fragment {
     FirebaseRecyclerAdapter<modelForProducts , viewholdersForProducts> firebaseRecyclerAdapter ;
     View view;
     TextView affTv  ;
+    static String activeDate ;
+
 
     public dashboardFragment() {
 
@@ -263,6 +265,9 @@ public class dashboardFragment extends Fragment {
 
 
             affTv.setText(model.getMy_AffiliationId());
+            activeDate = model.getActivatingDate() ;
+
+
 
          }
 
@@ -275,6 +280,13 @@ public class dashboardFragment extends Fragment {
 
 
  }
+ public static String  sendActiveDate()
+ {
+
+     return activeDate ;
+
+ }
+
 
     @Override
     public void onStart() {
