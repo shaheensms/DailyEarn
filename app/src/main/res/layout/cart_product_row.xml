@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="148dp"
+    android:layout_height="140dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
@@ -35,6 +35,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Product Name"
+                    android:id="@+id/nameOnrow"
                     android:textColor="@color/black"
                     android:layout_marginBottom="2dp"
                     android:textSize="16sp" />
@@ -45,6 +46,11 @@
                     android:text="Shampo, Facewash, soap"
                     android:layout_marginBottom="2dp"
                     android:textSize="16sp" />
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="cancel"
+                    android:id="@+id/cancelBtn"/>
 
             </LinearLayout>
 
@@ -62,7 +68,7 @@
                     android:layout_height="wrap_content"
                     android:text="250"
                     android:layout_weight="1
-"
+"                   android:id="@+id/totalPriceOnRow"
                     android:textColor="@color/colorPrimary"
                     android:layout_marginBottom="2dp"
                     android:drawableLeft="@drawable/dollar_icon_normal_24dp"
@@ -71,6 +77,7 @@
                 <com.cepheuen.elegantnumberbutton.view.ElegantNumberButton
                     android:layout_width="100dp"
                     android:layout_height="24dp"
+                    android:id="@+id/elegentbtn"
                     android:gravity="right"
                     android:layout_gravity="right"
                     app:backGroundColor="@color/colorPrimary"

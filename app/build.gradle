@@ -54,5 +54,11 @@ dependencies {
     //Increment Button
     implementation 'com.cepheuen.elegant-number-button:lib:1.0.2'
 
+    //sql light
+    implementation 'com.readystatesoftware.sqliteasset:sqliteassethelper:+'
+
+
+
+
 
 }
