@@ -16,13 +16,13 @@
         android:textColor="@color/black"
         android:text="Select Account"/>
 
-    <EditText
+    <Spinner
+        android:id="@+id/accountSPinner"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:drawableRight="@drawable/drop_down_icon_24dp"
-        android:hint="Eg: Joining Balance"/>
+        android:drawableRight="@drawable/drop_down_icon_24dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -33,13 +33,15 @@
         android:text="Available Balance"/>
 
     <EditText
+        android:id="@+id/balTv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
+        android:focusable="false"
         android:inputType="numberDecimal"
         android:drawableRight="@drawable/drop_down_icon_24dp"
-        android:hint="120"/>
+        android:hint="00"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -50,6 +52,7 @@
         android:text="Witdraw Amount"/>
 
     <EditText
+        android:id="@+id/balin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
@@ -67,6 +70,7 @@
         android:text="Password"/>
 
     <EditText
+        android:id="@+id/passin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
@@ -87,6 +91,7 @@
             android:layout_margin="8dp"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
+            android:id="@+id/confirmBTn"
             android:background="@drawable/blue_gradient_button_back"
             android:textColor="@color/white"
             android:text="Confirm"/>

@@ -26,15 +26,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DepositSelectActivity" />
+        <activity android:name=".activity.paymentSelectActivity" />
         <activity android:name=".DailyActivity" />
         <activity android:name=".BestOfferActivity" />
         <activity android:name=".AccountSetupActivity" />
         <activity android:name=".SignUpActivity" />
-        <activity android:name=".LoginActivity" >
-
-
-        </activity>
+        <activity android:name=".LoginActivity" ></activity>
+        <activity android:name=".activity.withdrawActivity"/>
         <activity android:name=".activity.ProductDetailActivity"/>
         <activity android:name=".cart"/>
 

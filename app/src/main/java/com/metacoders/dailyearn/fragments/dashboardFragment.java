@@ -37,6 +37,7 @@ import com.metacoders.dailyearn.models.modelForProducts;
 import com.metacoders.dailyearn.models.modelForProfile;
 
 public class dashboardFragment extends Fragment {
+    private static String password;
     RecyclerView mrecyclerview  ;
     LinearLayoutManager linearLayoutManager ;
     DatabaseReference mref;
@@ -46,6 +47,7 @@ public class dashboardFragment extends Fragment {
     View view;
     TextView affTv  ;
     static String activeDate ;
+
 
 
     public dashboardFragment() {
@@ -293,6 +295,8 @@ public class dashboardFragment extends Fragment {
 
             affTv.setText(model.getMy_AffiliationId());
             activeDate = model.getActivatingDate() ;
+            password = model.getPassword();
+
 
 
 
@@ -313,6 +317,12 @@ public class dashboardFragment extends Fragment {
      return activeDate ;
 
  }
+ public static    String getPassWord(){
+
+
+
+        return password ;
+    }
 
 
     @Override

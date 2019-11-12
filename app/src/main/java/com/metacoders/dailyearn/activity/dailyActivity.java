@@ -307,4 +307,6 @@ public class dailyActivity extends AppCompatActivity {
 
     }
 
+
+
 }

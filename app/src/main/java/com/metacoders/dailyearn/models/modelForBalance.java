@@ -1,18 +1,28 @@
 package com.metacoders.dailyearn.models;
 
 public class modelForBalance {
-    String afflicted_Bonus , earn_Bonus , global_profit_share ,joining_Bonus ,mutual_Bonus ,reward_Bonus ;
+    String afflicted_Bonus , earn_Bonus , global_profit_share ,joining_Bonus ,mutual_Bonus ,reward_Bonus  ,equity_balance ;
 
     public modelForBalance() {
     }
 
-    public modelForBalance(String afflicted_Bonus, String earn_Bonus, String global_profit_share, String joining_Bonus, String mutual_Bonus, String reward_Bonus) {
+    public modelForBalance(String afflicted_Bonus, String earn_Bonus, String global_profit_share,
+                           String joining_Bonus, String mutual_Bonus, String reward_Bonus, String equity_balance) {
         this.afflicted_Bonus = afflicted_Bonus;
         this.earn_Bonus = earn_Bonus;
         this.global_profit_share = global_profit_share;
         this.joining_Bonus = joining_Bonus;
         this.mutual_Bonus = mutual_Bonus;
         this.reward_Bonus = reward_Bonus;
+        this.equity_balance = equity_balance;
+    }
+
+    public String getEquity_balance() {
+        return equity_balance;
+    }
+
+    public void setEquity_balance(String equity_balance) {
+        this.equity_balance = equity_balance;
     }
 
     public String getAfflicted_Bonus() {

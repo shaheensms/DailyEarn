@@ -66,6 +66,13 @@ public class homePageActivity extends AppCompatActivity {
                         Intent igi  = new Intent(getApplicationContext()  , productListActivity.class);
                         startActivity(igi);
                         return true;
+
+                    case R.id.withdraw:
+                        Intent igg  = new Intent(getApplicationContext()  , withdrawActivity.class);
+                        startActivity(igg);
+
+                        return true;
+
                     case R.id.menu_go_logout:
 
                         /// log out

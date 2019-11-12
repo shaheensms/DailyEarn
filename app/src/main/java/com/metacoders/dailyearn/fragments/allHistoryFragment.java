@@ -51,7 +51,7 @@ RecyclerView mrecyclerview;
         //mutualList
         mrecyclerview = (RecyclerView) mview.findViewById(R.id.historyList) ;
 
-        linearLayoutManager = new LinearLayoutManager(getContext() , LinearLayoutManager.HORIZONTAL  ,false);
+        linearLayoutManager = new LinearLayoutManager(getContext());
 
 
         linearLayoutManager.setStackFromEnd(true);

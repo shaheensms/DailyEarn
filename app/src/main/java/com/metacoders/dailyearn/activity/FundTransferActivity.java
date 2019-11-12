@@ -121,7 +121,7 @@ public class FundTransferActivity extends AppCompatActivity {
 
                 // increse balance ;
 
-                double newBal =  Double.parseDouble(model.getMutual_Bonus()) ;
+                double newBal =  Double.parseDouble(model.getEquity_balance()) ;
 
                 if( newBal > Double.parseDouble(amount))
                 {
@@ -163,11 +163,11 @@ public class FundTransferActivity extends AppCompatActivity {
 
                 // increse balance ;
 
-                double newBal =  Double.parseDouble(model.getMutual_Bonus()) ;
+                double newBal =  Double.parseDouble(model.getEquity_balance()) ;
 
                 newBal = newBal + Double.parseDouble(amount) ;
 
-                mref.child("mutual_Bonus").setValue(newBal).addOnCompleteListener(new OnCompleteListener<Void>() {
+                mref.child("equity_balance").setValue(String.valueOf(newBal)).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
 
@@ -210,7 +210,7 @@ public class FundTransferActivity extends AppCompatActivity {
 
                 newBal =  newBal -  Double.parseDouble(amount);
 
-                mref.child("mutual_Bonus").setValue(String.valueOf(newBal)).addOnCompleteListener(new OnCompleteListener<Void>() {
+                mref.child("equity_balance").setValue(String.valueOf(newBal)).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
 

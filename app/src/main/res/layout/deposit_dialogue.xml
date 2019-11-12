@@ -13,10 +13,14 @@
         android:layout_marginBottom="16dp">
 
         <!--This image will load from the card user tapped-->
-        <ImageView
-            android:layout_width="200dp"
-            android:layout_height="100dp"
-            android:src="@drawable/paypal"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Please Enter Your "
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:id="@+id/headerText"
             android:layout_gravity="center_horizontal"/>
 
 
@@ -31,6 +35,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Sender Gmail"
+                android:inputType="textEmailAddress"
+                android:id="@+id/mailIn"
                 android:textColorHint="@color/colorTextHint" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -43,9 +49,11 @@
             android:layout_marginBottom="8dp">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/amountIn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Amount"
+                android:focusable="true"
                 android:textColorHint="@color/colorTextHint" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -66,6 +74,7 @@
                 android:layout_marginBottom="24dp"
                 android:background="@drawable/blue_gradient_button_back"
                 android:text="Submit"
+                android:id="@+id/submitBtn"
                 android:textColor="@color/colorWhite" />
 
             <Button
@@ -78,6 +87,7 @@
                 android:layout_marginBottom="24dp"
                 android:background="@drawable/black_gradient_button_back"
                 android:text="Cancel"
+                android:id="@+id/cancelBtn"
                 android:textColor="@color/colorWhite" />
 
         </LinearLayout>

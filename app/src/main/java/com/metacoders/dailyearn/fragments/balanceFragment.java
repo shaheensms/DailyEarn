@@ -112,7 +112,7 @@ public class balanceFragment extends Fragment {
 
         // load data into the spinner
 
-        String[] data= {"Reward Bonus" , "Global Profit Share","Earn Bonus" ,"Mutual Bonus" ,"Afflicted Bonus" , "Joining Bonus" };
+        String[] data= {"Reward Bonus" , "Global Profit Share","Earn Bonus" ,"Mutual Bonus" ,"Afflicted Bonus" , "Joining Bonus"  , "Equity Balance" };
         final ArrayAdapter<String> fromadapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_dropdown_item,data);
 
         fromAccount .setAdapter(fromadapter);
@@ -133,6 +133,10 @@ public class balanceFragment extends Fragment {
                 {
                     fromDB = "reward_Bonus" ;
 
+                }
+                else if (toac[0].contains("Equity Balance"))
+                {
+                    toDB ="equity_balance";
                 }
             else  if(fromac[0].contains("Global Profit Share"))
                 {
@@ -192,6 +196,10 @@ public class balanceFragment extends Fragment {
                 else  if(toac[0].contains("Earn Bonus")) {
 
                     toDB = "earn_Bonus" ;
+                }
+                else if (toac[0].contains("Equity Balance"))
+                {
+                    toDB ="equity_balance";
                 }
                 else     if(toac[0].contains("Mutual Bonus"))
                 {
@@ -384,6 +392,7 @@ convertBal.show();
 
 
 
+
             }
 
             @Override
@@ -395,6 +404,8 @@ convertBal.show();
 
 
     }
+
+
 
     private  void get_Bal(String baal) {
 
