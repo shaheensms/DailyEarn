@@ -67,6 +67,13 @@ public class homePageActivity extends AppCompatActivity {
                         startActivity(igi);
                         return true;
 
+                    case R.id.deposit:
+                        Intent iggg  = new Intent(getApplicationContext()  , paymentSelectActivity.class);
+                        iggg.putExtra("method" , "deposit") ;
+                        startActivity(iggg);
+
+                        return true;
+
                     case R.id.withdraw:
                         Intent igg  = new Intent(getApplicationContext()  , withdrawActivity.class);
                         startActivity(igg);

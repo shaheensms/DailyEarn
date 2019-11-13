@@ -7,9 +7,7 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,6 +23,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.metacoders.dailyearn.activity.PackageDetailsActivity;
 import com.metacoders.dailyearn.R;
 import com.metacoders.dailyearn.SignUpActivity;
 import com.metacoders.dailyearn.activity.ProductDetailActivity;
@@ -46,7 +45,7 @@ public class dashboardFragment extends Fragment {
     FirebaseRecyclerAdapter<modelForProducts , viewholdersForProducts> firebaseRecyclerAdapter ;
     View view;
     TextView affTv  ;
-    static String activeDate ;
+    static String activeDate , adress , mail  ;
 
 
 
@@ -121,11 +120,36 @@ public class dashboardFragment extends Fragment {
         options = new FirebaseRecyclerOptions.Builder<modelForPakage>().setQuery(mreff , modelForPakage.class).build();
         firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<modelForPakage, viewHolderForPackage>(options) {
             @Override
-            protected void onBindViewHolder(@NonNull viewHolderForPackage viewholdersForProducts,final int i, @NonNull modelForPakage model) {
+            protected void onBindViewHolder(@NonNull viewHolderForPackage viewholders,final int i, @NonNull final modelForPakage model) {
 
 
-                viewholdersForProducts.setData(getContext() , model.getName() , model.getId() , model.getPrice());
+                viewholders.setData(getContext() , model.getName() , model.getId() , model.getPrice());
 
+                viewholders.setOnClickListener(new viewHolderForPackage.ClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+
+
+                        Intent o  =  new Intent(getContext() , PackageDetailsActivity.class);
+                        o.putExtra("name" , model.getName()) ;
+                        o.putExtra("price" , model.getPrice()) ;
+                        o.putExtra("imageLink" , model.getImage()) ;
+                        o.putExtra("details" , model.getDetail()) ;
+                        o.putExtra("type" , model.getType()) ;
+                        o.putExtra("id" , model.getId()) ;
+
+                        startActivity(o);
+
+
+
+
+                    }
+
+                    @Override
+                    public void onItemLongClick(View view, int position) {
+
+                    }
+                });
 
             }
 
@@ -220,8 +244,7 @@ public class dashboardFragment extends Fragment {
 
 
     }
-    public  void loadMutualPackage()
-    {
+    public  void loadMutualPackage() {
         FirebaseRecyclerOptions<modelForMutulPatner> optionss ;
         FirebaseRecyclerAdapter<modelForMutulPatner , viewHoldersForMutual> firebaseRecyclerAdapter ;
         //mutualList
@@ -268,14 +291,13 @@ public class dashboardFragment extends Fragment {
 
     }
 
- public  void createSomeData()
- {
+ public  void createSomeData() {
 
 
      DatabaseReference mdef  = FirebaseDatabase.getInstance().getReference("packageList"); // db link
      String id = "Business" ;
 
-      modelForPakage model =  new modelForPakage(id ,id , "1250" , "dfs" ) ;
+      modelForPakage model =  new modelForPakage(id ,id , "1250" , "dfs" , "null" , "null" ) ;
 
 
       mdef.child(id).setValue(model) ;
@@ -296,9 +318,8 @@ public class dashboardFragment extends Fragment {
             affTv.setText(model.getMy_AffiliationId());
             activeDate = model.getActivatingDate() ;
             password = model.getPassword();
-
-
-
+            adress = model.getAdress1() ;
+            mail = model.getMail() ;
 
          }
 
@@ -323,6 +344,18 @@ public class dashboardFragment extends Fragment {
 
         return password ;
     }
+    public static    String getAdress(){
+
+
+
+        return adress ;
+    } public static    String getMail(){
+
+
+
+        return mail ;
+    }
+
 
 
     @Override
@@ -330,6 +363,8 @@ public class dashboardFragment extends Fragment {
         super.onStart();
 
         downloadProfileData();
+
+
     }
 }
 

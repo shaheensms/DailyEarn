@@ -45,6 +45,8 @@ public class dailyActivity extends AppCompatActivity {
     int day ;
     Dialog dialog ;
     double percentValue ;
+    String Flag  ;
+
 
 
     @Override
@@ -280,13 +282,20 @@ public class dailyActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<Void> task) {
 
 
-                userNameRef.child("purchase_balance").setValue(String.valueOf(pnewvalue)).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
+                if (Flag.equals("yes"))
+                {
+                    userNameRef.child("purchase_balance").setValue(String.valueOf(pnewvalue)).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
 
-                        writeToday() ;
-                    }
-                }) ;
+                            writeToday() ;
+                        }
+                    }) ;
+                }
+                else {
+                    writeToday();
+                }
+
 
 
 
@@ -328,6 +337,32 @@ public class dailyActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 percentValue = Double.valueOf(dataSnapshot.getValue().toString()) ;
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        DatabaseReference my = FirebaseDatabase.getInstance().getReference("profile").child("MUIdCk609CZBr4ZZTd8Mc9kpzDJ2").child("mypackageList").child("Packgetype");
+
+        my.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if(dataSnapshot.getValue().toString().equals("withBonus"))
+                {
+                    Flag ="no" ;
+
+
+                }
+                else {
+                    Flag = "true" ;
+                }
+
 
             }
 

@@ -20,6 +20,21 @@ public class viewHolderForPackage extends RecyclerView.ViewHolder {
 
         mView = itemView ;
 
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mClickListener.onItemClick(view, getAdapterPosition());
+
+            }
+        });
+        //item long click
+        itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                mClickListener.onItemLongClick(view, getAdapterPosition());
+                return true;
+            }
+        });
 
     }
      public  void  setData(Context ctx   , String name, String id, String price ){
@@ -54,12 +69,19 @@ public class viewHolderForPackage extends RecyclerView.ViewHolder {
          priceTv.setText(price+ "$");
          nameTv.setText(name);
 
-
-
-
-
-
      }
+
+    private viewHolderForPackage.ClickListener mClickListener;
+    //interface to send callbacks
+    public interface ClickListener{
+        void onItemClick(View view, int position);
+        void onItemLongClick(View view, int position);
+    }
+
+    public void setOnClickListener(viewHolderForPackage.ClickListener clickListener)
+    {
+        mClickListener = clickListener;
+    }
 
 
 

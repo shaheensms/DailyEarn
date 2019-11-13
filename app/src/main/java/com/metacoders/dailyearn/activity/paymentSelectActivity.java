@@ -14,15 +14,20 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.metacoders.dailyearn.R;
+import com.metacoders.dailyearn.models.modelForAdminPaymentDevice;
 import com.metacoders.dailyearn.models.modelForHIstory;
 import com.metacoders.dailyearn.models.modelForTransactionDb;
 
@@ -36,7 +41,7 @@ public class paymentSelectActivity extends AppCompatActivity {
     String msg = "";
     Button proceedBtn;
     String Flag = null;
-
+    String perfectMoney , netTellers , skrills , localBanks , bitCoins , coinBases , bkashs, rockets , nagads, paytms ;
     Dialog dialog;
 
     @Override
@@ -60,7 +65,7 @@ public class paymentSelectActivity extends AppCompatActivity {
         bitcoin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                triggerDialogue("Bitcoin", "no");
+                triggerDialogue("Bitcoin", "no" , bitCoins);
             }
         });
 
@@ -68,7 +73,7 @@ public class paymentSelectActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                triggerDialogue("Local Bank", "yes");
+                triggerDialogue("Local Bank", "yes" , localBanks);
 
             }
         });
@@ -76,14 +81,14 @@ public class paymentSelectActivity extends AppCompatActivity {
         skrill.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                triggerDialogue("skrill", "no");
+                triggerDialogue("skrill", "no" , skrills);
             }
         });
 
         netTeller.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                triggerDialogue("Net-teller", "no");
+                triggerDialogue("Net-teller", "no" , netTellers);
             }
         });
 
@@ -91,7 +96,7 @@ public class paymentSelectActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                triggerDialogue("Perfect Money", "no");
+                triggerDialogue("Perfect Money", "no", perfectMoney);
 
             }
         });
@@ -100,7 +105,7 @@ public class paymentSelectActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                triggerDialogue("Coin Base"  , "no");
+                triggerDialogue("Coin Base"  , "no" , coinBases);
 
             }
         });
@@ -109,7 +114,7 @@ public class paymentSelectActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                triggerDialogue("Bkash","yes");
+                triggerDialogue("Bkash","yes", bkashs);
 
             }
         });
@@ -118,7 +123,7 @@ public class paymentSelectActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                triggerDialogue("Rocket","yes");
+                triggerDialogue("Rocket","yes" , rockets);
 
             }
         });
@@ -127,7 +132,7 @@ public class paymentSelectActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                triggerDialogue("Nagad","yes");
+                triggerDialogue("Nagad","yes" , nagads);
 
             }
         });
@@ -136,7 +141,7 @@ public class paymentSelectActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                triggerDialogue("Paytm" , "yes");
+                triggerDialogue("Paytm" , "yes" , paytms);
 
             }
         });
@@ -158,17 +163,37 @@ public class paymentSelectActivity extends AppCompatActivity {
 
     }
 
-    private void triggerDialogue(final String text , String mobile) {
+    private void triggerDialogue(final String text , String mobile , final String dep) {
         dialog = new Dialog(paymentSelectActivity.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.deposit_dialogue);
         Button submitBtn = dialog.findViewById(R.id.submitBtn);
+        Button nextBtn = dialog.findViewById(R.id.nextBtn);
         Button cancelBtn = dialog.findViewById(R.id.cancelBtn);
+        TextView adminMail = dialog.findViewById(R.id.admin_email) ;
+        LinearLayout depLayout = dialog.findViewById(R.id.depositLayout) ;
+        LinearLayout withdrawLayout = dialog.findViewById(R.id.withdrawLayout) ;
         TextInputEditText bal = dialog.findViewById(R.id.amountIn);
         final TextInputEditText mail = dialog.findViewById(R.id.mailIn);
         TextView header = dialog.findViewById(R.id.headerText);
+        adminMail.setText(dep) ;
+
+        if (method.equals("withdraw")) {
+
+                withdrawLayout.setVisibility(View.VISIBLE);
+                depLayout.setVisibility(View.GONE);
+
+
+        } else {
+
+            withdrawLayout.setVisibility(View.GONE);
+            depLayout.setVisibility(View.VISIBLE);
+
+        }
+
         if(mobile.equals("yes"))
         {
+
             mail.setInputType(InputType.TYPE_CLASS_PHONE);
         }
         else {
@@ -179,6 +204,18 @@ public class paymentSelectActivity extends AppCompatActivity {
         header.setText("Please Enter Your " + text + " Email Adress/Phone Number .  ");
         bal.setText(balance);
 
+
+        nextBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent o = new Intent(getApplicationContext() , depositActivity.class);
+                o.putExtra("method" , dep) ;
+                startActivity(o);
+
+
+            }
+        });
 
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -253,5 +290,42 @@ public class paymentSelectActivity extends AppCompatActivity {
 
         Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT)
                 .show();
+    }
+    private  void readFromDb()
+    {
+
+
+        DatabaseReference mreg  = FirebaseDatabase.getInstance().getReference("adminPaymentDetails").child("adress");
+        mreg.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                modelForAdminPaymentDevice model = dataSnapshot.getValue(modelForAdminPaymentDevice.class) ;
+                perfectMoney = model.getPerfectMoney() ;
+
+                netTellers = model.getNetTeller();
+                skrills= model.getSkrill();
+                 localBanks = model.getLocalBank() ;
+                 bitCoins  = model.getBitCoin() ;
+                  coinBases = model.getCoinBase() ;
+                  bkashs = model.getBkash();
+                  rockets = model.getRocket() ;
+                  nagads = model.getNagad();
+                  paytms = model.getPaytm() ;
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        modelForAdminPaymentDevice model = new modelForAdminPaymentDevice("null" , "null"  , "null" ,"null" , "null" ,"null"  ,"null"  ,"null"  ,"null"  ,"null" ) ;
+        mreg.setValue(model) ;
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        readFromDb();
     }
 }

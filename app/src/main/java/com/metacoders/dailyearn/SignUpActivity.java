@@ -28,6 +28,7 @@ import com.metacoders.dailyearn.models.modelForBalDb;
 import com.metacoders.dailyearn.models.modelForProfile;
 import com.metacoders.dailyearn.models.modelForaddDb;
 import com.metacoders.dailyearn.models.modelForafflitaion;
+import com.metacoders.dailyearn.models.modelForlevelDb;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.ConfirmPassword;
@@ -49,6 +50,7 @@ import java.util.Vector;
 public class SignUpActivity extends AppCompatActivity implements Validator.ValidationListener {
     CountryCodePicker ccp;
     String  countryCode  ;
+    double l1 ,l2 ,l3,l4,l5,l6,l7, l8,l9 , l10 , l11, l12 ,l13 ,l14 ,l15 ;
     TextInputEditText fnameinput , lnameinput ,  affliationinput
             , usernameinput , dobpicker ;
 
@@ -61,9 +63,10 @@ public class SignUpActivity extends AppCompatActivity implements Validator.Valid
     TextInputEditText passinput  ;
 
     TextInputEditText mobileinput ;
-    String  name  , genCount=  "1" , owngenCount = "1" ,  email  , headLead = "null" , pass ,confirmpass , affliation , mobilenum , dateOfBirth , countryName  , username  , affliatedOf  = "null"   ;
+    TextInputEditText adressInput ;
+    String  name  , genCount=  "1" , adress , owngenCount = "1" ,  email  , headLead = "null" , pass ,confirmpass , affliation , mobilenum , dateOfBirth , countryName  , username  , affliatedOf  = "null"   ;
     Button signUp ;
-    int bonus ;
+    double bonus ;
     int gen , generation ;
     FirebaseAuth mAuth ;
     String newPath ;
@@ -86,6 +89,7 @@ public class SignUpActivity extends AppCompatActivity implements Validator.Valid
         lnameinput = findViewById(R.id.lname) ;
         emailinput = findViewById(R.id.emailid) ;
         passinput = findViewById(R.id.password) ;
+        adressInput = findViewById(R.id.adress) ;
         confirmpassinput = findViewById(R.id.confirmPassword) ;
         affliationinput = findViewById(R.id.affliationID) ;
         mobileinput = findViewById(R.id.phoneNumber) ;
@@ -258,7 +262,7 @@ public class SignUpActivity extends AppCompatActivity implements Validator.Valid
         datamap.put("joining_Date" , DATE) ;
         datamap.put("headLead"  , uid ) ;
         datamap.put("owngencount" , "1") ;
-        datamap.put("adress1" , "null") ;
+        datamap.put("adress1" , adressInput.getText().toString()) ;
         datamap.put("adress2" , "null") ;
         datamap.put("activatingDate" , "Not Active") ;
 
@@ -336,6 +340,8 @@ public class SignUpActivity extends AppCompatActivity implements Validator.Valid
         balmap.put("purchase_balance", "0") ;
 
 
+        DatabaseReference my = FirebaseDatabase.getInstance().getReference("profile").child("MUIdCk609CZBr4ZZTd8Mc9kpzDJ2").child("mypackageList").child("Packgetype");
+        my.setValue("activated") ;
         balDb.setValue(balmap).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -642,37 +648,97 @@ public class SignUpActivity extends AppCompatActivity implements Validator.Valid
                 modelForBalDb   model = dataSnapshot.getValue(modelForBalDb.class) ;
 
 
-                bonus =Integer.parseInt(model.getEarn_Bonus());
+                bonus =Double.valueOf(model.getEarn_Bonus());
                 showToast(Y+ "y");
 
                 if(Y == 5)
                 {
 
-                    bonus = bonus+ 5000;
+                    bonus = bonus+  (1 * (l5/100));
 
                 }
 
                 else   if(Y == 4)
                 {
 
-                    bonus = bonus+ 4000;
+                    bonus = bonus+   (1 * (l4/100));
 
                 }
 
-             else   if(Y == 3)
+                 else   if(Y == 3)
                 {
 
-                    bonus = bonus+ 3000;
+                    bonus = bonus+ (1 * (l3/100));
 
                 }
 
                 else if ( Y == 2)
-                    bonus = bonus+ 2000 ;
+                {
+                    bonus = bonus+ (1 * (l2/100)) ;
+                }
+
                 else if ( Y == 1)
-                    bonus = bonus+ 1000;
+                {
+                    bonus = bonus+ (1 * (l1/100));
+                }
+
 
                 else if ( Y == 0)
-                    bonus = bonus+ 4554454;
+                {
+                    bonus = bonus+ 0;
+                }
+
+                else if ( Y == 6)
+                { bonus = bonus+ (1 * (l6/100)) ;
+
+                }
+
+                else if ( Y == 7)
+                {
+                    bonus = bonus+ (1 * (l7/100));
+                }
+
+
+                else if ( Y == 8)
+                {
+                    bonus = bonus+ (1 * (l8/100));
+                }
+
+                else if ( Y == 9)
+                { bonus = bonus+ (1 * (l9/100)) ;
+
+                }
+
+                else if ( Y == 10)
+                {
+                    bonus = bonus+ (1 * (l10/100));
+                }
+
+
+                else if ( Y == 11)
+                {
+                    bonus = bonus+ (1 * (l11/100));
+                }
+                else if ( Y == 12)
+                { bonus = bonus+ (1 * (l12/100)) ;
+
+                }
+
+                else if ( Y == 13)
+                {
+                    bonus = bonus+ (1 * (l13/100));
+                }
+
+
+                else if ( Y == 14)
+                {
+                    bonus = bonus+ (1 * (l14/100));
+                }
+                else if ( Y == 15)
+                {
+                    bonus = bonus+ (1 * (l15/100));
+                }
+
 
                 databaseReference.child("earn_Bonus").setValue(String.valueOf(bonus)).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
@@ -728,8 +794,7 @@ public class SignUpActivity extends AppCompatActivity implements Validator.Valid
     }
 
 
-    private  String   getmyUid()
-    {
+    private  String   getmyUid() {
         String i  = FirebaseAuth.getInstance().getUid() ;
 
 
@@ -738,8 +803,7 @@ public class SignUpActivity extends AppCompatActivity implements Validator.Valid
 
 
 
-    private  void gotonext()
-    {
+    private  void gotonext() {
         Intent o = new Intent(getApplicationContext()  , homePageActivity.class);
         startActivity(o);
 
@@ -767,5 +831,53 @@ public class SignUpActivity extends AppCompatActivity implements Validator.Valid
                 Toast.makeText(this, message, Toast.LENGTH_LONG).show();
             }
         }
+    }
+    public  void readLvl(){
+        DatabaseReference mref = FirebaseDatabase.getInstance().getReference("lvlDb");
+
+        mref.child("percent").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                modelForlevelDb model = dataSnapshot.getValue(modelForlevelDb.class) ;
+
+                l1 = Double.valueOf(model.getL1()) ;
+                l2 =Double.valueOf(model.getL2())  ;
+                l3 =Double.valueOf( model.getL3()) ;
+                l4 =Double.valueOf( model.getL4()) ;
+                l5 =Double.valueOf(model.getL5())  ;
+                l6 =Double.valueOf(model.getL6())  ;
+                l7 =Double.valueOf(model.getL7() ) ;
+                l8 =Double.valueOf( model.getL8()) ;
+                l9 = Double.valueOf(model.getL9() );
+                l10 =Double.valueOf( model.getL10());
+                l11 =Double.valueOf(model.getL11() ) ;
+                l12 =Double.valueOf(model.getL12())  ;
+                l13 = Double.valueOf(model.getL13()) ;
+                l14 =Double.valueOf(model.getL14())  ;
+                l15 =Double.valueOf(model.getL15()) ;
+
+
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+
+
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        readLvl();
     }
 }

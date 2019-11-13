@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,10 +53,39 @@ public class packageListActivity extends AppCompatActivity {
         options = new FirebaseRecyclerOptions.Builder<modelForPakage>().setQuery(mreff , modelForPakage.class).build();
         firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<modelForPakage, viewHolderForPackage>(options) {
             @Override
-            protected void onBindViewHolder(@NonNull viewHolderForPackage viewholdersForProducts,final int i, @NonNull modelForPakage model) {
+            protected void onBindViewHolder(@NonNull viewHolderForPackage viewholdersForProducts,final int i, @NonNull final modelForPakage model) {
 
 
                 viewholdersForProducts.setData(getApplicationContext() , model.getName() , model.getId() , model.getPrice());
+
+                viewholdersForProducts.setOnClickListener(new viewHolderForPackage.ClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+
+
+                        Intent o  =  new Intent(getApplicationContext() , PackageDetailsActivity.class);
+                        o.putExtra("name" , model.getName()) ;
+                        o.putExtra("price" , model.getPrice()) ;
+                        o.putExtra("imageLink" , model.getImage()) ;
+                        o.putExtra("details" , model.getDetail()) ;
+                        o.putExtra("type" , model.getType()) ;
+                        o.putExtra("id" , model.getId()) ;
+
+                        startActivity(o);
+
+
+
+
+                    }
+
+                    @Override
+                    public void onItemLongClick(View view, int position) {
+
+                    }
+                });
+
+
+
 
 
             }

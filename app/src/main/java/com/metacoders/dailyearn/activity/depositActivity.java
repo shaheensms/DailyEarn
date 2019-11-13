@@ -1,0 +1,128 @@
+/*
+ * Copyright (c) $today.year.This Code is written by Gamkiller .
+ */
+
+package com.metacoders.dailyearn.activity;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeSuccessDialog;
+import com.awesomedialog.blennersilva.awesomedialoglibrary.interfaces.Closure;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.metacoders.dailyearn.R;
+import com.metacoders.dailyearn.fragments.dashboardFragment;
+import com.metacoders.dailyearn.models.modelForHIstory;
+import com.metacoders.dailyearn.models.modelForTransactionDb;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
+public class depositActivity extends AppCompatActivity {
+
+    String method , enterPass  , mypass , bal;
+    Button submit;
+    TextInputEditText pas , amount   , sentFrom ;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_deposit);
+
+        pas = findViewById(R.id.mypassWord) ;
+        amount = findViewById(R.id.amount);
+        submit = findViewById(R.id.confirmBtn);
+        sentFrom = findViewById(R.id.sentUser) ;
+
+        dashboardFragment dashboardfragment = new dashboardFragment();
+        mypass = dashboardFragment.getPassWord();
+
+
+
+
+        final Intent p = getIntent();
+        method = p.getStringExtra("method") ;
+
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                enterPass = pas.getText().toString() ;
+                bal = amount.getText().toString() ;
+                if ( mypass.equals(enterPass))
+                {
+                    final String DATE = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+                    DatabaseReference mref = FirebaseDatabase.getInstance().getReference();
+                    // upload the  transfer req to the preferred db
+                    final String key = mref.push().getKey();
+
+
+                    //TODO NEED UID HERE
+                    modelForTransactionDb modelForTransactionDb = new modelForTransactionDb(key, bal, "testId", sentFrom.getText().toString(), DATE, method ,"Pending" );
+                    //withdraw
+                    mref.child("depositDb").child(key).setValue(modelForTransactionDb).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+
+
+                            //TODO uid here
+                            DatabaseReference st = FirebaseDatabase.getInstance().getReference("profile").child("MUIdCk609CZBr4ZZTd8Mc9kpzDJ2").child("transHistory");
+
+                            //  String reason, String status, String date, String amount
+
+                            modelForHIstory modelForHIstoryf = new modelForHIstory(key, key, "You deposited  " + bal + " To Your Account", "Pending", DATE, bal);
+
+                            st.child(key).setValue(modelForHIstoryf).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    new AwesomeSuccessDialog(depositActivity.this)
+                                            .setTitle("Your Request was Successful")
+                                            .setMessage("Our Admin will soon review your request.")
+                                            .setColoredCircle(R.color.dialogSuccessBackgroundColor)
+                                            .setDialogIconAndColor(R.drawable.ic_dialog_info, R.color.white)
+                                            .setCancelable(true)
+                                            .setPositiveButtonText(getString(R.string.dialog_yes_button))
+                                            .setPositiveButtonbackgroundColor(R.color.dialogSuccessBackgroundColor)
+                                            .setPositiveButtonTextColor(R.color.white)
+                                            .setPositiveButtonClick(new Closure() {
+                                                @Override
+                                                public void exec() {
+                                                    //click
+                                                    finish();
+                                                }
+                                            })
+                                            .show();
+                                }
+                            });
+
+
+                        }
+                    });
+
+
+                }
+                else {
+
+                    Toast.makeText(getApplicationContext() , "Password is wrong!!" +
+                            " ", Toast.LENGTH_SHORT)
+                            .show();
+
+                }
+
+
+            }
+        });
+    }
+}
