@@ -11,14 +11,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activity.packageListActivity">
-
-
-        </activity>
-        <activity android:name=".activity.productListActivity" >
-
-        </activity>
-        <activity android:name=".activity.homePageActivity"
+        <activity android:name=".PackageDetailsActivity"></activity>
+        <activity android:name=".activity.packageListActivity"></activity>
+        <activity android:name=".activity.productListActivity"></activity>
+        <activity
+            android:name=".activity.homePageActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,14 +28,12 @@
         <activity android:name=".BestOfferActivity" />
         <activity android:name=".AccountSetupActivity" />
         <activity android:name=".SignUpActivity" />
-        <activity android:name=".LoginActivity" ></activity>
-        <activity android:name=".activity.withdrawActivity"/>
-        <activity android:name=".activity.ProductDetailActivity"/>
-        <activity android:name=".activity.dailyActivity"/>
-        <activity android:name=".cart"/>
-
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".activity.withdrawActivity" />
+        <activity android:name=".activity.ProductDetailActivity" />
+        <activity android:name=".activity.dailyActivity" />
+        <activity android:name=".cart" />
         <activity android:name=".activity.FundTransferActivity" />
-
     </application>
 
 </manifest>
