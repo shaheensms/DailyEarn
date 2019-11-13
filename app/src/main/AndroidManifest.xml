@@ -34,6 +34,7 @@
         <activity android:name=".LoginActivity" ></activity>
         <activity android:name=".activity.withdrawActivity"/>
         <activity android:name=".activity.ProductDetailActivity"/>
+        <activity android:name=".activity.dailyActivity"/>
         <activity android:name=".cart"/>
 
         <activity android:name=".activity.FundTransferActivity" />

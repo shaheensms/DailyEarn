@@ -44,6 +44,7 @@ public class dailyActivity extends AppCompatActivity {
     String activeDate , todayDate  ,  uid = "MUIdCk609CZBr4ZZTd8Mc9kpzDJ2";
     int day ;
     Dialog dialog ;
+    double percentValue ;
 
 
     @Override
@@ -243,13 +244,11 @@ public class dailyActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 modelForBalDb model  = dataSnapshot.getValue(modelForBalDb.class) ;
-                final double oldVal  ;
+                final double oldVal , poldValue  ;
                 oldVal = Double.valueOf(model.getEarn_Bonus()) ;
+                poldValue= Double.valueOf(model.getPurchase_balance()) ;
 
-                writeBalacne(oldVal);
-
-
-
+                writeBalacne(oldVal , poldValue);
 
 
             }
@@ -264,20 +263,32 @@ public class dailyActivity extends AppCompatActivity {
 
     }
 
-    private void writeBalacne(double oldVal) {
+    private void writeBalacne(double oldVal, double poldValue) {
 
-        DatabaseReference userNameRef = FirebaseDatabase.getInstance().getReference("profile").child(uid).child(constants.baldb).child("earn_Bonus");
+        final DatabaseReference userNameRef = FirebaseDatabase.getInstance().getReference("profile").child(uid).child(constants.baldb);
                 // calculate  value
 
-                     double   newValue = oldVal +23 ;
+        // calculating the value
+                     double   newValue = oldVal +(oldVal*(percentValue/100));
+                     final double   pnewvalue = poldValue + (poldValue*(percentValue/100))  ;
 
 
 
-        userNameRef.setValue(String.valueOf(newValue)).addOnCompleteListener(new OnCompleteListener<Void>() {
+
+        userNameRef.child("earn_Bonus").setValue(String.valueOf(newValue)).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
 
-                writeToday() ;
+
+                userNameRef.child("purchase_balance").setValue(String.valueOf(pnewvalue)).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+
+                        writeToday() ;
+                    }
+                }) ;
+
+
 
 
 
@@ -307,6 +318,24 @@ public class dailyActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
 
+        DatabaseReference mref = FirebaseDatabase.getInstance().getReference("addDb").child("dailyAdd").child("adPercent");
+        mref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
+                percentValue = Double.valueOf(dataSnapshot.getValue().toString()) ;
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
 }

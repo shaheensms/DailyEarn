@@ -333,6 +333,7 @@ public class SignUpActivity extends AppCompatActivity implements Validator.Valid
         balmap.put("global_profit_share" , "0") ;
         balmap.put("reward_Bonus" , "0") ;
         balmap.put("equity_balance" , "0") ;
+        balmap.put("purchase_balance", "0") ;
 
 
         balDb.setValue(balmap).addOnCompleteListener(new OnCompleteListener<Void>() {

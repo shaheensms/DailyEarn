@@ -100,7 +100,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="120dp"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/Skrill"/>
+                        android:src="@drawable/skrill"/>
 
                 </LinearLayout>
 
@@ -211,7 +211,7 @@
                         android:foreground="?attr/selectableItemBackground"
                         android:layout_width="match_parent"
                         android:layout_height="120dp"
-                        android:src="@drawable/BKash_Limited_logo"/>
+                        android:src="@drawable/bkash_limited_logo"/>
 
                 </LinearLayout>
 
@@ -266,7 +266,7 @@
                         android:foreground="?attr/selectableItemBackground"
                         android:layout_width="match_parent"
                         android:layout_height="120dp"
-                        android:src="@drawable/Paytm_logo"/>
+                        android:src="@drawable/paytm_logo"/>
 
                 </LinearLayout>
 

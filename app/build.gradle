@@ -56,8 +56,7 @@ dependencies {
 
     //sql light
     implementation 'com.readystatesoftware.sqliteasset:sqliteassethelper:+'
-
-
+    implementation 'com.github.blennerSilva:AwesomeDialog:2.0.5'
 
 
 

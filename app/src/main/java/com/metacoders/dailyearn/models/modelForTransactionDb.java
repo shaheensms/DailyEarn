@@ -3,19 +3,28 @@
 package com.metacoders.dailyearn.models;
 
 public class modelForTransactionDb {
-    String id , amount , uid  , mail , date , method  ;
+    String id , amount , uid  , mail , date , method , status   ;
 
     public modelForTransactionDb() {
     }
 
 
-    public modelForTransactionDb(String id, String amount, String uid, String mail, String date, String method) {
+    public modelForTransactionDb(String id, String amount, String uid, String mail, String date, String method, String status) {
         this.id = id;
         this.amount = amount;
         this.uid = uid;
         this.mail = mail;
         this.date = date;
         this.method = method;
+        this.status = status;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getMethod() {

@@ -2,16 +2,14 @@ package com.metacoders.dailyearn.models;
 
 public class modelForBalDb {
     String earn_Bonus , equity_balance  , joining_Bonus , afflicted_Bonus ,mutual_Bonus , global_profit_share ,
-            reward_Bonus ;
+            reward_Bonus ,purchase_balance ;
 
 
     public modelForBalDb() {
     }
 
 
-    public modelForBalDb(String earn_Bonus, String equity_balance, String joining_Bonus,
-                         String afflicted_Bonus, String mutual_Bonus,
-                         String global_profit_share, String reward_Bonus) {
+    public modelForBalDb(String earn_Bonus, String equity_balance, String joining_Bonus, String afflicted_Bonus, String mutual_Bonus, String global_profit_share, String reward_Bonus, String purchase_balance) {
         this.earn_Bonus = earn_Bonus;
         this.equity_balance = equity_balance;
         this.joining_Bonus = joining_Bonus;
@@ -19,6 +17,15 @@ public class modelForBalDb {
         this.mutual_Bonus = mutual_Bonus;
         this.global_profit_share = global_profit_share;
         this.reward_Bonus = reward_Bonus;
+        this.purchase_balance = purchase_balance;
+    }
+
+    public String getPurchase_balance() {
+        return purchase_balance;
+    }
+
+    public void setPurchase_balance(String purchase_balance) {
+        this.purchase_balance = purchase_balance;
     }
 
     public String getJoining_Bonus() {

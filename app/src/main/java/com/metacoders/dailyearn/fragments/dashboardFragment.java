@@ -275,7 +275,7 @@ public class dashboardFragment extends Fragment {
      DatabaseReference mdef  = FirebaseDatabase.getInstance().getReference("packageList"); // db link
      String id = "Business" ;
 
-      modelForPakage model =  new modelForPakage(id ,id , "1250" ) ;
+      modelForPakage model =  new modelForPakage(id ,id , "1250" , "dfs" ) ;
 
 
       mdef.child(id).setValue(model) ;

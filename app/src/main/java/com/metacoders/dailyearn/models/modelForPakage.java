@@ -1,15 +1,24 @@
 package com.metacoders.dailyearn.models;
 
 public class modelForPakage {
-    String name , id  , price  ;
+    String name , id  , price , detail  ;
 
     public modelForPakage() {
     }
 
-    public modelForPakage(String name, String id, String price) {
+    public modelForPakage(String name, String id, String price, String detail) {
         this.name = name;
         this.id = id;
         this.price = price;
+        this.detail = detail;
+    }
+
+    public String getDetail() {
+        return detail;
+    }
+
+    public void setDetail(String detail) {
+        this.detail = detail;
     }
 
     public String getName() {

@@ -51,14 +51,26 @@
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/listOfFood"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/listOfFood"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" />
+    <ProgressBar
+        android:id="@+id/pbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
+</FrameLayout>
+
+
 
         </LinearLayout>
+
 
     </ScrollView>
 

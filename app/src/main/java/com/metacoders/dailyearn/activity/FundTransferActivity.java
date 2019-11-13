@@ -108,7 +108,7 @@ public class FundTransferActivity extends AppCompatActivity {
 
     }
 
- void   checkEnoughFundAvailable(){
+    void   checkEnoughFundAvailable(){
         String uid = FirebaseAuth.getInstance().getUid();
         // 1st add the fund to the gifted
         final DatabaseReference mref =  FirebaseDatabase.getInstance().getReference("profile").child("MUIdCk609CZBr4ZZTd8Mc9kpzDJ2").child("balanceDb");
@@ -259,7 +259,7 @@ public class FundTransferActivity extends AppCompatActivity {
 
     }
 
-  public   void  showToast(String msg) {
+    public   void  showToast(String msg) {
         Toast.makeText(getApplicationContext() , msg, Toast.LENGTH_SHORT)
                 .show();
 

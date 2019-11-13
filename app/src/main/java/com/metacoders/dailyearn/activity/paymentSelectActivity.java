@@ -8,6 +8,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
@@ -59,7 +60,7 @@ public class paymentSelectActivity extends AppCompatActivity {
         bitcoin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                triggerDialogue("Bitcoin");
+                triggerDialogue("Bitcoin", "no");
             }
         });
 
@@ -67,7 +68,7 @@ public class paymentSelectActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                triggerDialogue("Local Bank");
+                triggerDialogue("Local Bank", "yes");
 
             }
         });
@@ -75,14 +76,14 @@ public class paymentSelectActivity extends AppCompatActivity {
         skrill.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                triggerDialogue("Skrill");
+                triggerDialogue("skrill", "no");
             }
         });
 
         netTeller.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                triggerDialogue("Net-teller");
+                triggerDialogue("Net-teller", "no");
             }
         });
 
@@ -90,7 +91,7 @@ public class paymentSelectActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                triggerDialogue("Perfect Money");
+                triggerDialogue("Perfect Money", "no");
 
             }
         });
@@ -99,7 +100,7 @@ public class paymentSelectActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                triggerDialogue("Coin Base");
+                triggerDialogue("Coin Base"  , "no");
 
             }
         });
@@ -108,7 +109,7 @@ public class paymentSelectActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                triggerDialogue("Bkash");
+                triggerDialogue("Bkash","yes");
 
             }
         });
@@ -117,7 +118,7 @@ public class paymentSelectActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                triggerDialogue("Rocket");
+                triggerDialogue("Rocket","yes");
 
             }
         });
@@ -126,7 +127,7 @@ public class paymentSelectActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                triggerDialogue("Nagad");
+                triggerDialogue("Nagad","yes");
 
             }
         });
@@ -135,7 +136,7 @@ public class paymentSelectActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                triggerDialogue("Paytm");
+                triggerDialogue("Paytm" , "yes");
 
             }
         });
@@ -146,19 +147,18 @@ public class paymentSelectActivity extends AppCompatActivity {
         balance = y.getStringExtra("amount");
         fromAcc = y.getStringExtra("fromAccount");
         if (method.equals("withdraw")) {
-            Flag = "withdraw";
+            Flag = "withdrawDB";
 
         } else {
 
-            Flag = "deposit";
+            Flag = "depositDB";
 
         }
 
 
     }
 
-    private void triggerDialogue(final String text) {
-        Context context;
+    private void triggerDialogue(final String text , String mobile) {
         dialog = new Dialog(paymentSelectActivity.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.deposit_dialogue);
@@ -167,9 +167,16 @@ public class paymentSelectActivity extends AppCompatActivity {
         TextInputEditText bal = dialog.findViewById(R.id.amountIn);
         final TextInputEditText mail = dialog.findViewById(R.id.mailIn);
         TextView header = dialog.findViewById(R.id.headerText);
+        if(mobile.equals("yes"))
+        {
+            mail.setInputType(InputType.TYPE_CLASS_PHONE);
+        }
+        else {
+                mail.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
 
+        }
 
-        header.setText("Please Enter Your " + text + " Email Adress ");
+        header.setText("Please Enter Your " + text + " Email Adress/Phone Number .  ");
         bal.setText(balance);
 
 
@@ -178,38 +185,46 @@ public class paymentSelectActivity extends AppCompatActivity {
             public void onClick(View v) {
                 final String Mail = mail.getText().toString();
                 if (!TextUtils.isEmpty(Mail)) {
-                    final String DATE = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
-                    DatabaseReference mref = FirebaseDatabase.getInstance().getReference();
-                    // upload the  transfer req to the preferred db
-                    final String key = mref.push().getKey();
 
 
-                    //TODO NEED UID HERE
-                    modelForTransactionDb modelForTransactionDb = new modelForTransactionDb(key, balance, "testId", Mail, DATE, text);
-                    mref.child("transacDb").child(key).setValue(modelForTransactionDb).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
+                        final String DATE = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+                        DatabaseReference mref = FirebaseDatabase.getInstance().getReference();
+                        // upload the  transfer req to the preferred db
+                        final String key = mref.push().getKey();
 
 
-                            //TODO uid here
-                            DatabaseReference st = FirebaseDatabase.getInstance().getReference("profile").child("MUIdCk609CZBr4ZZTd8Mc9kpzDJ2").child("transHistory");
-
-                            //  String reason, String status, String date, String amount
-
-                            modelForHIstory modelForHIstoryf = new modelForHIstory(key, key, "You Requested  " + balance + "  Your Account", "Pending", DATE, balance);
-
-                            st.child(key).setValue(modelForHIstoryf).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-
-                                    dialog.dismiss();
-                                    showToast("DONE!!");
-                                }
-                            });
+                        //TODO NEED UID HERE
+                        modelForTransactionDb modelForTransactionDb = new modelForTransactionDb(key, balance, "testId", Mail, DATE, text ,"Pending" );
+                     //withdraw
+                        mref.child(Flag).child(key).setValue(modelForTransactionDb).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
 
 
-                        }
-                    });
+                                //TODO uid here
+                                DatabaseReference st = FirebaseDatabase.getInstance().getReference("profile").child("MUIdCk609CZBr4ZZTd8Mc9kpzDJ2").child("transHistory");
+
+                                //  String reason, String status, String date, String amount
+
+                                modelForHIstory modelForHIstoryf = new modelForHIstory(key, key, "You Requested  " + balance + "  Your Account", "Pending", DATE, balance);
+
+                                st.child(key).setValue(modelForHIstoryf).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+
+                                        dialog.dismiss();
+
+                                        showToast("DONE!!");
+                                        finish();
+                                    }
+                                });
+
+
+                            }
+                        });
+
+
+
 
                 } else {
 

@@ -100,7 +100,7 @@ public class CartAdapter extends  RecyclerView.Adapter<CartViewHolder>{
 
 
                     }
-                    cart.totalPriceTv.setText(String.valueOf(total)+" BDT");
+                    cart.totalPriceTv.setText(String.valueOf(total)+"");
                    // cart.FinalTextPriceFloatBar.setText(total+"");
 
                 }
@@ -173,5 +173,8 @@ public void removeItem(int position ){
         listData.add(position , item);
         notifyItemInserted(position);
     }
+
+
+
 
 }
