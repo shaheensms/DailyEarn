@@ -1,5 +1,8 @@
 package com.metacoders.dailyearn.fragments;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -7,7 +10,9 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -36,6 +41,9 @@ import com.metacoders.dailyearn.models.modelForPakage;
 import com.metacoders.dailyearn.models.modelForProducts;
 import com.metacoders.dailyearn.models.modelForProfile;
 
+import static android.content.Context.CLIPBOARD_SERVICE;
+import static androidx.core.content.ContextCompat.getSystemService;
+
 public class dashboardFragment extends Fragment {
     private static String password;
     RecyclerView mrecyclerview  ;
@@ -47,8 +55,9 @@ public class dashboardFragment extends Fragment {
     View view;
     String uid;
 
-
+    Button copyBtn , inviteBtn  ;
     TextView affTv  ;
+    ClipboardManager myClipboard;
     static String  currentBuy , activeDate , adress , mail  ;
 
 
@@ -65,7 +74,24 @@ public class dashboardFragment extends Fragment {
      TextView tv=view.findViewById(R.id.newsTicker);
         affTv = view.findViewById(R.id.affLinkTv) ;
 
+        myClipboard = (ClipboardManager)getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+        copyBtn = view.findViewById(R.id.copyBtn);
+        inviteBtn = view.findViewById(R.id.inviteBtn);
 
+        copyBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                copyMethod();
+            }
+        });
+
+        inviteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                copyMethod();
+            }
+        });
 
 
         affTv.setOnClickListener(new View.OnClickListener() {
@@ -410,6 +436,19 @@ public class dashboardFragment extends Fragment {
 
 
         return mail ;
+    }
+    public  void  copyMethod(){
+
+        ClipData myClip;
+        String text = affTv.getText().toString();
+        myClip = ClipData.newPlainText("text", text);
+        myClipboard.setPrimaryClip(myClip);
+      //  Toast.makeText(getContext() , "Affliate Link Copied " , Toast.LENGTH_SHORT).show();
+
+        Intent intent2 = new Intent(); intent2.setAction(Intent.ACTION_SEND);
+        intent2.setType("text/plain");
+        intent2.putExtra(Intent.EXTRA_TEXT, "Earn With Daily Earn Join Now And Use Affiliation Link " + affTv.getText().toString());
+        startActivity(Intent.createChooser(intent2, "Share via"));
     }
 
 

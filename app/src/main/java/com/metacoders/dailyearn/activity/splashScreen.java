@@ -54,11 +54,11 @@ public class splashScreen extends AppCompatActivity {
         catch (Exception e)
         {
 
-
+            sentToNext();
 
         //    uid = "MUIdCk609CZBr4ZZTd8Mc9kpzDJ2" ;
 
-            isMutualAvaiable();
+
         }
 
     }
