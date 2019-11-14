@@ -338,6 +338,7 @@ public class SignUpActivity extends AppCompatActivity implements Validator.Valid
         balmap.put("reward_Bonus" , "0") ;
         balmap.put("equity_balance" , "0") ;
         balmap.put("purchase_balance", "0") ;
+        balmap.put("runningBundle" , "null") ;
 
 
         DatabaseReference my = FirebaseDatabase.getInstance().getReference("profile").child("MUIdCk609CZBr4ZZTd8Mc9kpzDJ2").child("mypackageList").child("Packgetype");

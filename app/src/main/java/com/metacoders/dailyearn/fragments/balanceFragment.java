@@ -22,6 +22,7 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -57,7 +58,7 @@ public class balanceFragment extends Fragment {
 
 
        // uid = FirebaseAuth.getInstance().getUid() ;
-        uid = "MUIdCk609CZBr4ZZTd8Mc9kpzDJ2" ;
+        uid = FirebaseAuth.getInstance().getUid();
 
 
         view = inflater.inflate(R.layout.balance_fragment, container, false);
@@ -111,16 +112,16 @@ public class balanceFragment extends Fragment {
         submit =  convertBal.findViewById(R.id.confirmBtn) ;
 
         // load data into the spinner
-
-        String[] data= {"Reward Bonus" , "Global Profit Share","Earn Bonus" ,"Mutual Bonus" ,"Afflicted Bonus" , "Joining Bonus"  , "Equity Balance" };
+        String[] dataTO= {"Earn Bonus" , "Equity Balance" };
+        String[] data= {"Reward Bonus" , "Global Profit Share","Earn Bonus" ,"Mutual Bonus" ,"Afflicted Bonus" , "Joining Bonus"   };
         final ArrayAdapter<String> fromadapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_dropdown_item,data);
+        final ArrayAdapter<String> toadapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_dropdown_item,dataTO);
 
         fromAccount .setAdapter(fromadapter);
         fromadapter.notifyDataSetChanged();
 
-        ArrayAdapter<String> toadapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_item,data);
 
-        toAccount .setAdapter(fromadapter);
+        toAccount .setAdapter(toadapter);
         toadapter.notifyDataSetChanged();
 
 

@@ -27,6 +27,7 @@ import com.metacoders.dailyearn.activity.PackageDetailsActivity;
 import com.metacoders.dailyearn.R;
 import com.metacoders.dailyearn.SignUpActivity;
 import com.metacoders.dailyearn.activity.ProductDetailActivity;
+import com.metacoders.dailyearn.activity.paymentSelectActivity;
 import com.metacoders.dailyearn.adapters.viewHolderForPackage;
 import com.metacoders.dailyearn.adapters.viewHoldersForMutual;
 import com.metacoders.dailyearn.adapters.viewholdersForProducts;
@@ -44,8 +45,11 @@ public class dashboardFragment extends Fragment {
     FirebaseRecyclerOptions<modelForProducts> options ;
     FirebaseRecyclerAdapter<modelForProducts , viewholdersForProducts> firebaseRecyclerAdapter ;
     View view;
+    String uid;
+
+
     TextView affTv  ;
-    static String activeDate , adress , mail  ;
+    static String  currentBuy , activeDate , adress , mail  ;
 
 
 
@@ -60,6 +64,8 @@ public class dashboardFragment extends Fragment {
         view = inflater.inflate(R.layout.dashboard_fragment, container, false);
      TextView tv=view.findViewById(R.id.newsTicker);
         affTv = view.findViewById(R.id.affLinkTv) ;
+
+
 
 
         affTv.setOnClickListener(new View.OnClickListener() {
@@ -265,10 +271,32 @@ public class dashboardFragment extends Fragment {
         optionss = new FirebaseRecyclerOptions.Builder<modelForMutulPatner>().setQuery(mref , modelForMutulPatner.class).build();
         firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<modelForMutulPatner, viewHoldersForMutual>(optionss) {
             @Override
-            protected void onBindViewHolder(@NonNull viewHoldersForMutual viewholdersforMutual,final int i, @NonNull modelForMutulPatner model) {
+            protected void onBindViewHolder(@NonNull viewHoldersForMutual viewholdersforMutual,final int i, @NonNull final modelForMutulPatner model) {
 
 
                 viewholdersforMutual.setData(getContext() , model.getName()   , model.getName() , model.getPrice());
+
+                viewholdersforMutual.setOnClickListener(new viewHoldersForMutual.ClickListener() {
+                    @Override
+                    public void onItemClick(View view, final  int position) {
+
+                        Intent i = new Intent(getContext() , paymentSelectActivity.class);
+                        i.putExtra("method" , "mutual") ;
+                        i.putExtra("amount" , model.getPrice()) ;
+                        i.putExtra("name" , model.getName()) ;
+                        startActivity(i);
+
+
+
+
+
+                    }
+
+                    @Override
+                    public void onItemLongClick(View view, int position) {
+
+                    }
+                });
 
 
             }
@@ -304,7 +332,14 @@ public class dashboardFragment extends Fragment {
  }
 
  public  void downloadProfileData() {
-     DatabaseReference  pref = FirebaseDatabase.getInstance().getReference("profile").child("MUIdCk609CZBr4ZZTd8Mc9kpzDJ2");
+        // todo  uid
+     uid = FirebaseAuth.getInstance().getUid() ;
+
+
+     final DatabaseReference  pref = FirebaseDatabase.getInstance().getReference("profile").child(uid);
+     final DatabaseReference  preff = FirebaseDatabase.getInstance().getReference("profile").child(uid).child("runningBundle");
+
+
 
 
      pref.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -320,6 +355,21 @@ public class dashboardFragment extends Fragment {
             password = model.getPassword();
             adress = model.getAdress1() ;
             mail = model.getMail() ;
+
+
+            preff.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+
+                    currentBuy = dataSnapshot.getValue().toString();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
 
          }
 
@@ -338,6 +388,12 @@ public class dashboardFragment extends Fragment {
      return activeDate ;
 
  }
+    public static String  sendCurrentbuy()
+    {
+
+        return currentBuy ;
+
+    }
  public static    String getPassWord(){
 
 

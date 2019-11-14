@@ -34,6 +34,8 @@ public class FundTransferActivity extends AppCompatActivity {
     String myname, myuser, touserId, amount, pass , checkPass;
     Button conbtn;
     String sentID ;
+    String uid  ;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,9 @@ public class FundTransferActivity extends AppCompatActivity {
         amuntin = findViewById(R.id.amount);
         passin = findViewById(R.id.mypassWord);
         conbtn = findViewById(R.id.confirmBtn);
+
+        uid = FirebaseAuth.getInstance().getUid() ;
+
 
         downloadProfileData();
         conbtn.setOnClickListener(new View.OnClickListener() {
@@ -111,7 +116,7 @@ public class FundTransferActivity extends AppCompatActivity {
     void   checkEnoughFundAvailable(){
         String uid = FirebaseAuth.getInstance().getUid();
         // 1st add the fund to the gifted
-        final DatabaseReference mref =  FirebaseDatabase.getInstance().getReference("profile").child("MUIdCk609CZBr4ZZTd8Mc9kpzDJ2").child("balanceDb");
+        final DatabaseReference mref =  FirebaseDatabase.getInstance().getReference("profile").child(uid).child("balanceDb");
 
         mref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -195,9 +200,9 @@ public class FundTransferActivity extends AppCompatActivity {
     }
 
     private void deductTheFund() {
-        //TODO change uid
-        String uid = FirebaseAuth.getInstance().getUid();
-        final DatabaseReference mref =  FirebaseDatabase.getInstance().getReference("profile").child("MUIdCk609CZBr4ZZTd8Mc9kpzDJ2").child("balanceDb");
+
+        final String uid = FirebaseAuth.getInstance().getUid();
+        final DatabaseReference mref =  FirebaseDatabase.getInstance().getReference("profile").child(uid).child("balanceDb");
         mref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -215,7 +220,7 @@ public class FundTransferActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Void> task) {
 
 
-                        DatabaseReference  st = FirebaseDatabase.getInstance().getReference("profile").child("MUIdCk609CZBr4ZZTd8Mc9kpzDJ2").child("transHistory");
+                        DatabaseReference  st = FirebaseDatabase.getInstance().getReference("profile").child(uid).child("transHistory");
 
                         final String key  = st.push().getKey() ;
                       //  String reason, String status, String date, String amount
@@ -266,7 +271,7 @@ public class FundTransferActivity extends AppCompatActivity {
 
     }
     public  void downloadProfileData() {
-        DatabaseReference  pref = FirebaseDatabase.getInstance().getReference("profile").child("MUIdCk609CZBr4ZZTd8Mc9kpzDJ2");
+        DatabaseReference  pref = FirebaseDatabase.getInstance().getReference("profile").child(uid);
 
 
         pref.addListenerForSingleValueEvent(new ValueEventListener() {

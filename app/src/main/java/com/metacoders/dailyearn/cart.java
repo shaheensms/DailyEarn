@@ -91,7 +91,7 @@ public Button  checckoutBtn ;
     void   checkEnoughFundAvailable(){
         String uid = FirebaseAuth.getInstance().getUid();
         // 1st add the fund to the gifted
-        final DatabaseReference mref =  FirebaseDatabase.getInstance().getReference("profile").child("MUIdCk609CZBr4ZZTd8Mc9kpzDJ2").child("balanceDb");
+        final DatabaseReference mref =  FirebaseDatabase.getInstance().getReference("profile").child(uid).child("balanceDb");
 
         mref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -171,9 +171,9 @@ public Button  checckoutBtn ;
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
          json = gson.toJson(cart); // all the order is in  This  String
-        //TODO change uid
-        String uid = FirebaseAuth.getInstance().getUid();
-        final DatabaseReference mref =  FirebaseDatabase.getInstance().getReference("profile").child("MUIdCk609CZBr4ZZTd8Mc9kpzDJ2").child("balanceDb");
+
+        final String uid = FirebaseAuth.getInstance().getUid();
+        final DatabaseReference mref =  FirebaseDatabase.getInstance().getReference("profile").child(uid).child("balanceDb");
         mref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -191,7 +191,7 @@ public Button  checckoutBtn ;
                     public void onComplete(@NonNull Task<Void> task) {
 
 
-                        DatabaseReference  st = FirebaseDatabase.getInstance().getReference("profile").child("MUIdCk609CZBr4ZZTd8Mc9kpzDJ2").child("transHistory");
+                        DatabaseReference  st = FirebaseDatabase.getInstance().getReference("profile").child(uid).child("transHistory");
 
                         final String key  = st.push().getKey() ;
                         //  String reason, String status, String date, String amount
@@ -203,7 +203,7 @@ public Button  checckoutBtn ;
                             public void onComplete(@NonNull Task<Void> task) {
                               // String id , amount , uid  , productList, date   ;
                                 DatabaseReference  st = FirebaseDatabase.getInstance().getReference("productPurchasedList").child(key);
-                                modelForProductPurchageDb  model = new modelForProductPurchageDb(key ,  totalPriceTv.getText().toString(),"MUIdCk609CZBr4ZZTd8Mc9kpzDJ2" ,json , DATE ) ;
+                                modelForProductPurchageDb  model = new modelForProductPurchageDb(key ,  totalPriceTv.getText().toString(),uid ,json , DATE ) ;
 
                                 st.setValue(model).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override

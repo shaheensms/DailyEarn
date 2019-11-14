@@ -19,6 +19,7 @@ import com.awesomedialog.blennersilva.awesomedialoglibrary.interfaces.Closure;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.metacoders.dailyearn.R;
@@ -34,14 +35,17 @@ public class depositActivity extends AppCompatActivity {
 
     String method , enterPass  , mypass , bal;
     Button submit;
-    TextInputEditText pas , amount   , sentFrom ;
+    TextInputEditText pas , amount   , sentFrom  ;
+String Flag , balance , fromAcc , packageName , m  ;
 
+    String uid ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_deposit);
 
+        uid = FirebaseAuth.getInstance().getUid() ;
         pas = findViewById(R.id.mypassWord) ;
         amount = findViewById(R.id.amount);
         submit = findViewById(R.id.confirmBtn);
@@ -55,8 +59,24 @@ public class depositActivity extends AppCompatActivity {
 
         final Intent p = getIntent();
         method = p.getStringExtra("method") ;
+        balance = p.getStringExtra("amount");
+        fromAcc = p.getStringExtra("fromAccount");
+        packageName = p.getStringExtra("name") ;
+        m = p.getStringExtra("type") ;
 
-        submit.setOnClickListener(new View.OnClickListener() {
+
+        if(m.contains("mutual"))
+        {
+            Flag = "mutualDB";
+
+        }
+        else Flag = "depositDb";
+
+
+
+
+
+            submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 enterPass = pas.getText().toString() ;
@@ -64,25 +84,30 @@ public class depositActivity extends AppCompatActivity {
                 if ( mypass.equals(enterPass))
                 {
                     final String DATE = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
-                    DatabaseReference mref = FirebaseDatabase.getInstance().getReference();
+                    final DatabaseReference mref = FirebaseDatabase.getInstance().getReference();
                     // upload the  transfer req to the preferred db
                     final String key = mref.push().getKey();
 
 
-                    //TODO NEED UID HERE
-                    modelForTransactionDb modelForTransactionDb = new modelForTransactionDb(key, bal, "testId", sentFrom.getText().toString(), DATE, method ,"Pending" );
+
+                    modelForTransactionDb modelForTransactionDb = new modelForTransactionDb(key, bal, uid, sentFrom.getText().toString(), DATE, method ,"Pending" );
                     //withdraw
-                    mref.child("depositDb").child(key).setValue(modelForTransactionDb).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    mref.child(Flag).child(key).setValue(modelForTransactionDb).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
 
 
-                            //TODO uid here
-                            DatabaseReference st = FirebaseDatabase.getInstance().getReference("profile").child("MUIdCk609CZBr4ZZTd8Mc9kpzDJ2").child("transHistory");
+
+                            DatabaseReference st = FirebaseDatabase.getInstance().getReference("profile").child(uid).child("transHistory");
 
                             //  String reason, String status, String date, String amount
 
                             modelForHIstory modelForHIstoryf = new modelForHIstory(key, key, "You deposited  " + bal + " To Your Account", "Pending", DATE, bal);
+
+                            if(Flag.equals("mutualDB"))
+                            {
+                                mref.child(Flag).child(key).child("pname").setValue(packageName) ;
+                            }
 
                             st.child(key).setValue(modelForHIstoryf).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override

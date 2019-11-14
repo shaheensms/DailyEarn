@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -38,16 +39,19 @@ import java.util.Locale;
 public class paymentSelectActivity extends AppCompatActivity {
     String balance, method, fromAcc;
     ImageView pmMoney, netTeller, skrill, localBank, bitcoin, coinBase, bkash, rocket, nagad, paytm;
-    String msg = "";
+    String msg = "" , uid;
+    Intent y;
     Button proceedBtn;
     String Flag = null;
-    String perfectMoney , netTellers , skrills , localBanks , bitCoins , coinBases , bkashs, rockets , nagads, paytms ;
+    String perfectMoney  , packageName, netTellers , skrills , localBanks , bitCoins , coinBases , bkashs, rockets , nagads, paytms ;
     Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.payment_system_select);
+        uid = FirebaseAuth.getInstance().getUid() ;
+
 
         pmMoney = findViewById(R.id.perFectMoneyImage);
         netTeller = findViewById(R.id.netleerImage);
@@ -61,6 +65,11 @@ public class paymentSelectActivity extends AppCompatActivity {
         paytm = findViewById(R.id.paytm);
 
 
+
+        y = getIntent();
+        method = y.getStringExtra("method");
+        balance = y.getStringExtra("amount");
+        fromAcc = y.getStringExtra("fromAccount");
         // setting the  button  .
         bitcoin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,19 +156,27 @@ public class paymentSelectActivity extends AppCompatActivity {
         });
 
 
-        Intent y = getIntent();
-        method = y.getStringExtra("method");
-        balance = y.getStringExtra("amount");
-        fromAcc = y.getStringExtra("fromAccount");
-        if (method.equals("withdraw")) {
-            Flag = "withdrawDB";
 
-        } else {
 
-            Flag = "depositDB";
+        switch (method) {
+            case "withdraw":
+                Flag = "withdrawDB";
 
+                break;
+            case "mutual":
+                packageName = y.getStringExtra("name");
+                Flag = "mutualDB";
+                showToast(Flag);
+                break;
+            case "deposit":
+
+                Flag = "depositDB";
+
+                break;
         }
 
+
+      //  showToast(Flag);
 
     }
 
@@ -184,7 +201,9 @@ public class paymentSelectActivity extends AppCompatActivity {
                 depLayout.setVisibility(View.GONE);
 
 
-        } else {
+        }
+
+        else {
 
             withdrawLayout.setVisibility(View.GONE);
             depLayout.setVisibility(View.VISIBLE);
@@ -211,6 +230,9 @@ public class paymentSelectActivity extends AppCompatActivity {
 
                 Intent o = new Intent(getApplicationContext() , depositActivity.class);
                 o.putExtra("method" , dep) ;
+                o.putExtra("type" , method) ;
+                o.putExtra("amount" , balance) ;
+                o.putExtra("name" , packageName) ;
                 startActivity(o);
 
 
@@ -224,22 +246,26 @@ public class paymentSelectActivity extends AppCompatActivity {
                 if (!TextUtils.isEmpty(Mail)) {
 
 
+
+
+
                         final String DATE = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
-                        DatabaseReference mref = FirebaseDatabase.getInstance().getReference();
+                        final DatabaseReference mref = FirebaseDatabase.getInstance().getReference();
                         // upload the  transfer req to the preferred db
                         final String key = mref.push().getKey();
 
 
                         //TODO NEED UID HERE
-                        modelForTransactionDb modelForTransactionDb = new modelForTransactionDb(key, balance, "testId", Mail, DATE, text ,"Pending" );
+                        modelForTransactionDb modelForTransactionDb = new modelForTransactionDb(key, balance, uid, fromAcc, DATE, text ,"Pending" );
                      //withdraw
                         mref.child(Flag).child(key).setValue(modelForTransactionDb).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
+                                showToast(Flag);
 
-
-                                //TODO uid here
-                                DatabaseReference st = FirebaseDatabase.getInstance().getReference("profile").child("MUIdCk609CZBr4ZZTd8Mc9kpzDJ2").child("transHistory");
+                                //
+                                // TODO uid here
+                                DatabaseReference st = FirebaseDatabase.getInstance().getReference("profile").child(uid).child("transHistory");
 
                                 //  String reason, String status, String date, String amount
 
@@ -250,6 +276,8 @@ public class paymentSelectActivity extends AppCompatActivity {
                                     public void onComplete(@NonNull Task<Void> task) {
 
                                         dialog.dismiss();
+
+
 
                                         showToast("DONE!!");
                                         finish();
@@ -291,8 +319,7 @@ public class paymentSelectActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT)
                 .show();
     }
-    private  void readFromDb()
-    {
+    private  void readFromDb() {
 
 
         DatabaseReference mreg  = FirebaseDatabase.getInstance().getReference("adminPaymentDetails").child("adress");
@@ -300,17 +327,16 @@ public class paymentSelectActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 modelForAdminPaymentDevice model = dataSnapshot.getValue(modelForAdminPaymentDevice.class) ;
-                perfectMoney = model.getPerfectMoney() ;
-
-                netTellers = model.getNetTeller();
-                skrills= model.getSkrill();
-                 localBanks = model.getLocalBank() ;
-                 bitCoins  = model.getBitCoin() ;
-                  coinBases = model.getCoinBase() ;
-                  bkashs = model.getBkash();
-                  rockets = model.getRocket() ;
-                  nagads = model.getNagad();
-                  paytms = model.getPaytm() ;
+                    perfectMoney = model.getPerfectMoney() ;
+                    netTellers = model.getNetTeller();
+                    skrills= model.getSkrill();
+                    localBanks = model.getLocalBank() ;
+                    bitCoins  = model.getBitCoin() ;
+                    coinBases = model.getCoinBase() ;
+                    bkashs = model.getBkash();
+                    rockets = model.getRocket() ;
+                    nagads = model.getNagad();
+                    paytms = model.getPaytm() ;
             }
 
             @Override
@@ -319,8 +345,6 @@ public class paymentSelectActivity extends AppCompatActivity {
             }
         });
 
-        modelForAdminPaymentDevice model = new modelForAdminPaymentDevice("null" , "null"  , "null" ,"null" , "null" ,"null"  ,"null"  ,"null"  ,"null"  ,"null" ) ;
-        mreg.setValue(model) ;
     }
 
     @Override

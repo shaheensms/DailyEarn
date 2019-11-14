@@ -4,8 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,10 +12,10 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,11 +24,10 @@ import com.google.firebase.database.ValueEventListener;
 import com.metacoders.dailyearn.R;
 import com.metacoders.dailyearn.constants;
 import com.metacoders.dailyearn.fragments.dashboardFragment;
-import com.metacoders.dailyearn.models.modelForAd;
+import com.metacoders.dailyearn.models.mdoelForDailyEarn;
 import com.metacoders.dailyearn.models.modelForBalDb;
 import com.squareup.picasso.Picasso;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -41,10 +38,10 @@ public class dailyActivity extends AppCompatActivity {
 
 
     Button dailyEarnBtn ;
-    String activeDate , todayDate  ,  uid = "MUIdCk609CZBr4ZZTd8Mc9kpzDJ2";
-    int day ;
+    String activeDate , Type  , todayDate  ,  uid = "MUIdCk609CZBr4ZZTd8Mc9kpzDJ2";
+    int day , fday  ;
     Dialog dialog ;
-    double percentValue ;
+    double percentValue , packageValue , packagePercent  ;
     String Flag  ;
 
 
@@ -54,12 +51,14 @@ public class dailyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_daily2);
 
+        uid = FirebaseAuth.getInstance().getUid() ;
 
 
         todayDate = getTodayDate();
 
         dashboardFragment dashboardFragment = new dashboardFragment() ;
         activeDate= dashboardFragment.sendActiveDate() ;
+      //  Type = dashboardFragment.sendCurrentbuy() ;
 
 
 
@@ -117,10 +116,14 @@ public class dailyActivity extends AppCompatActivity {
 
 
                             }
+                            else if (day <=fday )
+                            {
+                                checkIsHeDoneAlready() ;
+                            }
                             else {
                                 // 1st check he is all ready done it or not
 
-                                checkIsHeDoneAlready() ;
+                              showToast(" Day has ended to receive ");
 
 
                             }
@@ -271,8 +274,23 @@ public class dailyActivity extends AppCompatActivity {
                 // calculate  value
 
         // calculating the value
-                     double   newValue = oldVal +(oldVal*(percentValue/100));
-                     final double   pnewvalue = poldValue + (poldValue*(percentValue/100))  ;
+        double   newValue ;
+        final double   pnewvalue  ;
+
+        if (dashboardFragment.sendCurrentbuy().equals("package"))
+        {
+              //  percentValue = packagePercent ;
+
+            newValue = oldVal +(packageValue*(percentValue/100));
+            pnewvalue = poldValue + (packageValue*(percentValue/100))  ;
+        }
+        else {
+               newValue = oldVal +(packageValue*(percentValue/100));
+                pnewvalue = poldValue + (packageValue*(percentValue/100))  ;
+
+
+
+        }
 
 
 
@@ -282,19 +300,24 @@ public class dailyActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<Void> task) {
 
 
-                if (Flag.equals("yes"))
+                if (dashboardFragment.sendCurrentbuy().equals("product"))
                 {
-                    userNameRef.child("purchase_balance").setValue(String.valueOf(pnewvalue)).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    userNameRef.child("earn_Bonus").setValue(String.valueOf(pnewvalue)).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
+                            writeToday();
 
-                            writeToday() ;
                         }
                     }) ;
+
+
                 }
                 else {
+
                     writeToday();
+
                 }
+
 
 
 
@@ -326,51 +349,106 @@ public class dailyActivity extends AppCompatActivity {
 
 
     }
+    private  void getMyPakcgeValue(){
+        DatabaseReference userNameRef = FirebaseDatabase.getInstance().getReference("profile").child(uid).child("myPakageList").child("packageValue");
+
+        userNameRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                packageValue = Double.parseDouble(dataSnapshot.getValue().toString()) ;
+
+
+
+
+                DatabaseReference userNameRefd = FirebaseDatabase.getInstance().getReference("profile").child(uid).child("myPakageList").child("packagePercent");
+                userNameRefd.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                        packagePercent = Double.parseDouble(dataSnapshot.getValue().toString());
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                }) ;
+
+
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+
+    }
+
+
+
+
 
     @Override
     protected void onStart() {
         super.onStart();
 
-        DatabaseReference mref = FirebaseDatabase.getInstance().getReference("addDb").child("dailyAdd").child("adPercent");
-        mref.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                percentValue = Double.valueOf(dataSnapshot.getValue().toString()) ;
+        dashboardFragment dashboardfragment = new dashboardFragment();
 
+        if (dashboardFragment.sendCurrentbuy().equals("products"))
+        {
+            DatabaseReference mref = FirebaseDatabase.getInstance().getReference("percent_and_days").child("withProduct");
+            mref.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-            }
+                    mdoelForDailyEarn  model = dataSnapshot.getValue(mdoelForDailyEarn.class) ;
+                    fday =Integer.parseInt( model.getDay()) ;
+                    percentValue = Double.parseDouble(model.getPercent()) ;
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+                }
 
-            }
-        });
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-        DatabaseReference my = FirebaseDatabase.getInstance().getReference("profile").child("MUIdCk609CZBr4ZZTd8Mc9kpzDJ2").child("mypackageList").child("Packgetype");
+                }
+            });
+        }
 
-        my.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+        else if (dashboardFragment.sendCurrentbuy().equals("package"))
+        {
+            DatabaseReference mref = FirebaseDatabase.getInstance().getReference("percent_and_days").child("withPackage");
+            mref.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                if(dataSnapshot.getValue().toString().equals("withBonus"))
-                {
-                    Flag ="no" ;
+                    mdoelForDailyEarn  model = dataSnapshot.getValue(mdoelForDailyEarn.class) ;
+                    fday =Integer.parseInt( model.getDay().toString()) ;
+                    percentValue = Double.parseDouble(model.getPercent()) ;
 
 
                 }
-                else {
-                    Flag = "true" ;
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
                 }
+            });
+        }
 
 
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            }
-        });
+            getMyPakcgeValue();
+
 
     }
 }

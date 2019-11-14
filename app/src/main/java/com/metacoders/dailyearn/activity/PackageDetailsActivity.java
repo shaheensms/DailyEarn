@@ -125,18 +125,11 @@ public class PackageDetailsActivity extends AppCompatActivity {
                 modelForBalance model = dataSnapshot.getValue(modelForBalance.class) ;
                 double newBal  ;
                 // increse balance ;
-                if(  flag.contains( "withBonus" ))
-                {
+
                         balDb = "equity_balance" ;
                      newBal =  Double.parseDouble(model.getEquity_balance()) ;
-                }
-                else
-                {
-                    // withProduct
-                    // // balance katbe Puchage  bal
-                        balDb = "purchase_balance" ;
-                     newBal =  Double.parseDouble(model.getPurchase_balance()) ;
-                }
+
+
 
 
 

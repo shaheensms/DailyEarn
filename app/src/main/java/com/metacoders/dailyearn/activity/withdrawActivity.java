@@ -182,7 +182,7 @@ public class withdrawActivity extends AppCompatActivity {
     }
 
     private void convertDeductedBal(final String fromDB, final String toDB, final double deducbal) {
-        //TODO plz update uid from test
+
         //  fromDB = "mutual_Bonus" ;
         final DatabaseReference mref =  FirebaseDatabase.getInstance().getReference("profile").child(uid).child("balanceDb").child(fromDB);
 
@@ -214,7 +214,7 @@ public class withdrawActivity extends AppCompatActivity {
                             // now deduct the value fom the dame account
 
                         //   showToast("deducted MOney ");
-                            // ToDO send the user to  the requested view
+
 
                             Intent i = new Intent(getApplicationContext() , paymentSelectActivity.class);
                             i.putExtra("amount", String.valueOf(deducbal));
