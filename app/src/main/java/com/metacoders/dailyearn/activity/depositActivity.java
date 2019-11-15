@@ -90,7 +90,7 @@ String Flag , balance , fromAcc , packageName , m  ;
 
 
 
-                    modelForTransactionDb modelForTransactionDb = new modelForTransactionDb(key, bal, uid, sentFrom.getText().toString(), DATE, method ,"Pending" );
+                    modelForTransactionDb modelForTransactionDb = new modelForTransactionDb(key, bal, uid, sentFrom.getText().toString(), DATE, m ,"Pending" );
                     //withdraw
                     mref.child(Flag).child(key).setValue(modelForTransactionDb).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override

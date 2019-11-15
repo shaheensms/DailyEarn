@@ -230,7 +230,7 @@ public class paymentSelectActivity extends AppCompatActivity {
 
                 Intent o = new Intent(getApplicationContext() , depositActivity.class);
                 o.putExtra("method" , dep) ;
-                o.putExtra("type" , method) ;
+                o.putExtra("type" , text) ;
                 o.putExtra("amount" , balance) ;
                 o.putExtra("name" , packageName) ;
                 startActivity(o);
