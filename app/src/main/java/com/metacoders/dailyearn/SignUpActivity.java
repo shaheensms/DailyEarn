@@ -266,6 +266,9 @@ public class SignUpActivity extends AppCompatActivity implements Validator.Valid
         datamap.put("adress2" , "null") ;
         datamap.put("activatingDate" , "Not Active") ;
         datamap.put("runningBundle" , "null") ;
+        final DatabaseReference my = FirebaseDatabase.getInstance().getReference("profile").child(uid).child("mypackageList");
+        my.child("packageValue").setValue("0");
+        my.child("packagePercent").setValue("0");
 
 
 

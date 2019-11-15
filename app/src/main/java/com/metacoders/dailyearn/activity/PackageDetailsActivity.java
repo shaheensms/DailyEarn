@@ -49,6 +49,7 @@ public class PackageDetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_package_details);
         productImage = findViewById(R.id.productImage);
         title = findViewById(R.id.productName) ;
@@ -116,7 +117,7 @@ public class PackageDetailsActivity extends AppCompatActivity {
 
         String uid = FirebaseAuth.getInstance().getUid();
         // 1st add the fund to the gifted
-        final DatabaseReference mref =  FirebaseDatabase.getInstance().getReference("profile").child("MUIdCk609CZBr4ZZTd8Mc9kpzDJ2").child("balanceDb");
+        final DatabaseReference mref =  FirebaseDatabase.getInstance().getReference("profile").child(uid).child("balanceDb");
 
         mref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -127,7 +128,7 @@ public class PackageDetailsActivity extends AppCompatActivity {
                 // increse balance ;
 
                         balDb = "equity_balance" ;
-                     newBal =  Double.parseDouble(model.getEquity_balance()) ;
+                     newBal =  Double.parseDouble(model.getPurchase_balance()) ;
 
 
 
@@ -178,8 +179,8 @@ public class PackageDetailsActivity extends AppCompatActivity {
     private void deductTheFund() {
 
         //TODO change uid
-        String uid = FirebaseAuth.getInstance().getUid();
-        final DatabaseReference mref =  FirebaseDatabase.getInstance().getReference("profile").child("MUIdCk609CZBr4ZZTd8Mc9kpzDJ2").child("balanceDb");
+        final String uid = FirebaseAuth.getInstance().getUid();
+        final DatabaseReference mref =  FirebaseDatabase.getInstance().getReference("profile").child(uid).child("balanceDb");
         mref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -188,18 +189,12 @@ public class PackageDetailsActivity extends AppCompatActivity {
 
                 // increse balance ;
                 double newBal;
-                if(  flag.contains( "withBonus" ))
-                {
-                    balDb = "equity_balance" ;
-                     newBal =  Double.parseDouble(model.getEquity_balance()) ;
-                }
-                else
-                {
+
                     // withProduct
                     // // balance katbe Puchage  bal
                     balDb = "purchase_balance" ;
                     newBal =  Double.parseDouble(model.getPurchase_balance()) ;
-                }
+
 
 
 
@@ -211,7 +206,7 @@ public class PackageDetailsActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Void> task) {
 
 
-                        DatabaseReference  st = FirebaseDatabase.getInstance().getReference("profile").child("MUIdCk609CZBr4ZZTd8Mc9kpzDJ2").child("transHistory");
+                        DatabaseReference  st = FirebaseDatabase.getInstance().getReference("profile").child(uid).child("transHistory");
 
                         final String key  = st.push().getKey() ;
                         //  String reason, String status, String date, String amount
@@ -223,20 +218,28 @@ public class PackageDetailsActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<Void> task) {
                                 // String id , amount , uid  , productList, date   ;
                                 DatabaseReference  st = FirebaseDatabase.getInstance().getReference("packagePurchasedList").child(key);
-                                final modelForProductPurchageDb model = new modelForProductPurchageDb(key ,  price.getText().toString(),"MUIdCk609CZBr4ZZTd8Mc9kpzDJ2" ,id , DATE ) ;
+                                final modelForProductPurchageDb model = new modelForProductPurchageDb(key ,  price.getText().toString(),uid , title.getText().toString() , DATE ) ;
 
                                 st.setValue(model).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
 
-                                        DatabaseReference my = FirebaseDatabase.getInstance().getReference("profile").child("MUIdCk609CZBr4ZZTd8Mc9kpzDJ2").child("mypackageList");
+                                        DatabaseReference my = FirebaseDatabase.getInstance().getReference("profile").child(uid).child("mypackageList");
                                         my.child(key).setValue(model).addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
 
-                                                final DatabaseReference my = FirebaseDatabase.getInstance().getReference("profile").child("MUIdCk609CZBr4ZZTd8Mc9kpzDJ2").child("mypackageList");
+                                                final DatabaseReference my = FirebaseDatabase.getInstance().getReference("profile").child(uid).child("mypackageList");
+                                                final DatabaseReference myf = FirebaseDatabase.getInstance().getReference("profile").child(uid).child("runningBundle");
+                                                myf.setValue("package") ;
+                                                my.child("packageValue").setValue(price.getText().toString()) ;
+                                                my.child("packagePercent").setValue(Type) ;
+                                                 DatabaseReference mmy = FirebaseDatabase.getInstance().getReference("profile").child(uid)  ;
+                                                 mmy.child("activatingDate").setValue(DATE) ;
+                                                 mmy.child("status").setValue("active") ;
 
-                                                my.child("Packgetype").setValue(flag).addOnCompleteListener(new OnCompleteListener<Void>() {
+
+                                                my.child("Packgetype").setValue("activated").addOnCompleteListener(new OnCompleteListener<Void>() {
                                                     @Override
                                                     public void onComplete(@NonNull Task<Void> task) {
 

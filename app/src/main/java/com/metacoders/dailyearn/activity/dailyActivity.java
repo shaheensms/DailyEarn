@@ -350,7 +350,7 @@ public class dailyActivity extends AppCompatActivity {
 
     }
     private  void getMyPakcgeValue(){
-        DatabaseReference userNameRef = FirebaseDatabase.getInstance().getReference("profile").child(uid).child("myPakageList").child("packageValue");
+        DatabaseReference userNameRef = FirebaseDatabase.getInstance().getReference("profile").child(uid).child("mypackageList").child("packageValue");
 
         userNameRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -361,7 +361,7 @@ public class dailyActivity extends AppCompatActivity {
 
 
 
-                DatabaseReference userNameRefd = FirebaseDatabase.getInstance().getReference("profile").child(uid).child("myPakageList").child("packagePercent");
+                DatabaseReference userNameRefd = FirebaseDatabase.getInstance().getReference("profile").child(uid).child("mypackageList").child("packagePercent");
                 userNameRefd.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -442,6 +442,9 @@ public class dailyActivity extends AppCompatActivity {
 
                 }
             });
+        }
+        else {
+
         }
 
 
