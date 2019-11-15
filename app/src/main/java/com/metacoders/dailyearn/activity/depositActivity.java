@@ -63,9 +63,10 @@ String Flag , balance , fromAcc , packageName , m  ;
         fromAcc = p.getStringExtra("fromAccount");
         packageName = p.getStringExtra("name") ;
         m = p.getStringExtra("type") ;
+        String dbb = p.getStringExtra("db") ;
 
 
-        if(m.contains("mutual"))
+        if(dbb.contains("mutual"))
         {
             Flag = "mutualDB";
 
@@ -73,7 +74,7 @@ String Flag , balance , fromAcc , packageName , m  ;
         else Flag = "depositDb";
 
 
-
+Toast.makeText(getApplicationContext()  , dbb , Toast.LENGTH_SHORT).show();
 
 
             submit.setOnClickListener(new View.OnClickListener() {

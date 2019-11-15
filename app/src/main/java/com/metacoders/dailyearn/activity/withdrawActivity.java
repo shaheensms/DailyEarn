@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,7 +32,7 @@ public class withdrawActivity extends AppCompatActivity {
     EditText passIn, balin, balTv;
     Button sumbitbtn;
     String pass , enteredPass;
-    String uid = "MUIdCk609CZBr4ZZTd8Mc9kpzDJ2";
+    String uid ;
     String affBal, earnBal, equityBal, globalProfitBal, joiningBal, mutualBal, rewardBal;
     String fromDB;
     final String[] fromac = new String[1];
@@ -39,6 +40,7 @@ public class withdrawActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.withdraw_dialogue);
+        uid = FirebaseAuth.getInstance().getUid() ;
 
         accspinner = findViewById(R.id.accountSPinner);
         passIn = findViewById(R.id.passin);

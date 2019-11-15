@@ -233,6 +233,7 @@ public class paymentSelectActivity extends AppCompatActivity {
                 o.putExtra("type" , text) ;
                 o.putExtra("amount" , balance) ;
                 o.putExtra("name" , packageName) ;
+                o.putExtra("db" , method);
                 startActivity(o);
 
 
@@ -256,7 +257,7 @@ public class paymentSelectActivity extends AppCompatActivity {
 
 
                         //TODO NEED UID HERE
-                        modelForTransactionDb modelForTransactionDb = new modelForTransactionDb(key, balance, uid, fromAcc, DATE, text ,"Pending" );
+                        modelForTransactionDb modelForTransactionDb = new modelForTransactionDb(key, balance, uid, fromAcc, DATE, text ,Mail );
                      //withdraw
                         mref.child(Flag).child(key).setValue(modelForTransactionDb).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
