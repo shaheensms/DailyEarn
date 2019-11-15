@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,7 +23,7 @@ public class profileFragment  extends Fragment {
 
     public profileFragment() {
     }
-    String uid ="MUIdCk609CZBr4ZZTd8Mc9kpzDJ2" ;
+    String uid  ;
     View view  ;
     TextView nameHeader , nameTv , ownaffId , affliationIdTv , affliationNameTv ,
             mailTv, address1 , adress2 , dobTv , joinTv , activTv , rankTv ;
@@ -30,7 +31,9 @@ public class profileFragment  extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+
         view = inflater.inflate(R.layout.profile_fragment, container, false);
+        uid = FirebaseAuth.getInstance().getUid() ; 
         // init views
         nameHeader = view.findViewById(R.id.titleNameTv) ;
         nameTv  = view.findViewById(R.id.titleNameTv2) ;

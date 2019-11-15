@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.metacoders.dailyearn.R;
@@ -27,6 +28,7 @@ RecyclerView mrecyclerview;
 
     View mview ;
     LinearLayoutManager linearLayoutManager ;
+    String uid  ;
 
 
     public allHistoryFragment() {
@@ -37,6 +39,7 @@ RecyclerView mrecyclerview;
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         mview = inflater.inflate(R.layout.activity_deposit_history , container , false)  ;
+        uid = FirebaseAuth.getInstance().getUid() ;
 
 
             loadHistory();
@@ -62,7 +65,7 @@ RecyclerView mrecyclerview;
 
 
 
-      DatabaseReference  mref = FirebaseDatabase.getInstance().getReference("profile").child("MUIdCk609CZBr4ZZTd8Mc9kpzDJ2").child("transHistory"); // db link
+      DatabaseReference  mref = FirebaseDatabase.getInstance().getReference("profile").child(uid).child("transHistory"); // db link
         optionss = new FirebaseRecyclerOptions.Builder<modelForHIstory>().setQuery(mref , modelForHIstory.class).build();
         firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<modelForHIstory, viewHoldersForHistory>(optionss) {
             @Override
