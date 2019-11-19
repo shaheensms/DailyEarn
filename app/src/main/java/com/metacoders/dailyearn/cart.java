@@ -113,7 +113,7 @@ public Button  checckoutBtn ;
 
                     new AwesomeErrorDialog(cart.this)
                             .setTitle("ERROR!!")
-                            .setMessage("Not Enough Fund In your Purchase Balance. Please Deposit money")
+                            .setMessage("Not Enough Fund In your  Balance. Please Deposit money")
                             .setColoredCircle(R.color.dialogErrorBackgroundColor)
                             .setDialogIconAndColor(R.drawable.ic_dialog_error, R.color.white)
                             .setCancelable(true).setButtonText(getString(R.string.dialog_ok_button))
@@ -204,6 +204,16 @@ public Button  checckoutBtn ;
                               // String id , amount , uid  , productList, date   ;
                                 DatabaseReference  st = FirebaseDatabase.getInstance().getReference("productPurchasedList").child(key);
                                 modelForProductPurchageDb  model = new modelForProductPurchageDb(key ,  totalPriceTv.getText().toString(),uid ,json , DATE ) ;
+
+                                final DatabaseReference my = FirebaseDatabase.getInstance().getReference("profile").child(uid).child("mypackageList");
+                                final DatabaseReference myf = FirebaseDatabase.getInstance().getReference("profile").child(uid).child("runningBundle");
+                                myf.setValue("product") ;
+                                my.child("packageValue").setValue(totalPriceTv.getText().toString()) ;
+                                my.child("packagePercent").setValue("0.1") ;
+                                DatabaseReference mmy = FirebaseDatabase.getInstance().getReference("profile").child(uid)  ;
+                                mmy.child("activatingDate").setValue(DATE) ;
+                                mmy.child("status").setValue("active") ;
+
 
                                 st.setValue(model).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override

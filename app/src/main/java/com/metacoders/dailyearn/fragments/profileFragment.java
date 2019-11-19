@@ -33,7 +33,7 @@ public class profileFragment  extends Fragment {
 
 
         view = inflater.inflate(R.layout.profile_fragment, container, false);
-        uid = FirebaseAuth.getInstance().getUid() ; 
+        uid = FirebaseAuth.getInstance().getUid() ;
         // init views
         nameHeader = view.findViewById(R.id.titleNameTv) ;
         nameTv  = view.findViewById(R.id.titleNameTv2) ;

@@ -11,7 +11,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ReferralActivity"></activity>
+        <activity android:name=".activity.refActivity"></activity>
+        <activity android:name=".ReferralActivity" />
         <activity android:name=".activity.splashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,13 +26,13 @@
         <activity android:name=".activity.productListActivity" />
         <activity
             android:name=".activity.homePageActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".activity.paymentSelectActivity" />
         <activity android:name=".DailyActivity" />
         <activity android:name=".BestOfferActivity" />
         <activity android:name=".AccountSetupActivity" />
         <activity android:name=".SignUpActivity" />
-        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".LoginActivity" />
         <activity android:name=".activity.withdrawActivity" />
         <activity android:name=".activity.ProductDetailActivity" />
         <activity android:name=".activity.dailyActivity" />

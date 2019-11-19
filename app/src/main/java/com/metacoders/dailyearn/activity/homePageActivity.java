@@ -18,6 +18,9 @@ import android.widget.ImageView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.metacoders.dailyearn.LoginActivity;
 import com.metacoders.dailyearn.R;
 import com.metacoders.dailyearn.adapters.viewPagerAdapter;
 import com.metacoders.dailyearn.fragments.allHistoryFragment;
@@ -62,6 +65,15 @@ public class homePageActivity extends AppCompatActivity {
                         Intent ii  = new Intent(getApplicationContext()  , packageListActivity.class);
                         startActivity(ii);
                         return  true ;
+                    case  R.id.tree_view:
+                        Intent o  =  new Intent(getApplicationContext() , refActivity.class);
+
+                        dashboardFragment dashboardfragment = new dashboardFragment();
+                        String REf = dashboardFragment.getaffId();
+                        o.putExtra("ref" , REf) ;
+
+                        startActivity(o);
+                        return  true ;
                     case R.id.productlist:
                         Intent igi  = new Intent(getApplicationContext()  , productListActivity.class);
                         startActivity(igi);
@@ -83,6 +95,11 @@ public class homePageActivity extends AppCompatActivity {
                     case R.id.menu_go_logout:
 
                         /// log out
+                      //  FirebaseUser muser = FirebaseAuth.getInstance().getCurrentUser();
+                        FirebaseAuth mauth = FirebaseAuth.getInstance();
+                        mauth.signOut();
+                        Intent igfif  = new Intent(getApplicationContext()  , LoginActivity.class);
+                        startActivity(igfif);
 
                         return true;
                     case R.id.daily_activity:

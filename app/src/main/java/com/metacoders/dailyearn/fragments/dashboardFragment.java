@@ -56,9 +56,9 @@ public class dashboardFragment extends Fragment {
     String uid;
 
     Button copyBtn , inviteBtn  ;
-    TextView affTv  ;
+    TextView affTv  , tv ;
     ClipboardManager myClipboard;
-    static String  currentBuy , activeDate , adress , mail  ;
+    static String  currentBuy , activeDate , adress , mail  ,myaff ;
 
 
 
@@ -71,7 +71,7 @@ public class dashboardFragment extends Fragment {
 
 
         view = inflater.inflate(R.layout.dashboard_fragment, container, false);
-     TextView tv=view.findViewById(R.id.newsTicker);
+              tv=view.findViewById(R.id.newsTicker);
         affTv = view.findViewById(R.id.affLinkTv) ;
 
         myClipboard = (ClipboardManager)getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
@@ -377,6 +377,7 @@ public class dashboardFragment extends Fragment {
 
 
             affTv.setText(model.getMy_AffiliationId());
+            myaff = model.getMy_AffiliationId() ;
             activeDate = model.getActivatingDate() ;
             password = model.getPassword();
             adress = model.getAdress1() ;
@@ -428,10 +429,16 @@ public class dashboardFragment extends Fragment {
     }
     public static    String getAdress(){
 
-
-
         return adress ;
-    } public static    String getMail(){
+    }
+
+    public static    String getaffId(){
+
+        return  myaff;
+    }
+
+
+    public static    String getMail(){
 
 
 
@@ -458,8 +465,25 @@ public class dashboardFragment extends Fragment {
         super.onStart();
 
         downloadProfileData();
+        downloadTicker() ;
+
+    }
+
+    private void downloadTicker() {
+        DatabaseReference re = FirebaseDatabase.getInstance().getReference("ticker");
+        re.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
 
+                tv.setText(dataSnapshot.getValue().toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }
 
